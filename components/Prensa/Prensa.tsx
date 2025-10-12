@@ -133,7 +133,7 @@ export default function Prensa() {
               Jóvenes en Acción - Revista CONSUDEC - Agosto 2025
             </a>
             <p className="descripcionDestacada">
-              Artículo especial sobre el impacto y la trayectoria de Jóvenes en Acción publicado en la prestigiosa revista de CONSUDEC (Consejo Superior de Educación Católica).
+              Artículo especial sobre el impacto y la trayectoria de Jóvenes en Acción publicado en la revista de CONSUDEC (Consejo Superior de Educación Católica) que cuenta con testimonios de directivos, docentes y alumnos secundarios sobre la experiencia en el programa en Radio Cultura.
             </p>
             <div className="iconoRevista">📖</div>
           </div>

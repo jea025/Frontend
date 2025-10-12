@@ -80,7 +80,7 @@ const Navbar: React.FC = () => {
               <Link key={item.id} href={item.href}>
                 <button
                   id={item.id}
-                  className={`h-8 px-3 py-2 mx-2 lg:mx-4 my-1 transition-all duration-300 hover:scale-105 ${
+                  className={`h-8 px-3 py-2 mx-2 lg:mx-4 my-1 font-bold transition-all duration-300 hover:scale-105 ${
                     pathname === item.href ? activeClass : defaultClass
                   }`}
                 >

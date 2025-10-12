@@ -8,7 +8,7 @@ export default function Nosotros() {
           <span className="text-customCyan2">|</span> Acerca de nosotros
         </h2>
         <p className="text-xl">
-          Jóvenes en Acción nació en 1997 como un programa de radio en Radio Cultura creado por la Lic. Carmen Sicardi, fundadora y directora del proyecto. Su objetivo fue crear un espacion donde los adolescentes pudieran expresar con 
+          <span className="font-bold">Jóvenes en Acción</span> nació en 1997 como un programa de radio en Radio Cultura creado por la Lic. Carmen Sicardi, fundadora y directora del proyecto. Su objetivo fue crear un espacion donde los adolescentes pudieran expresar con 
           libertad, responsabilidad y compromiso su sentir y pensar.  
           <br />
           Alumnos secundarios a cargo de la producción y conducción, abordan temas que despiertan su interés o generan preocupación en la búsqueda de respuestas a sus inquietudes supervisados en sus colegios por la Lic. Sicardi. 
@@ -21,12 +21,11 @@ export default function Nosotros() {
           En el 2012, la Lic. Sicardi comenzó a implementar diferentes proyectos por fuera del espacio radial, en alianza con ONGs, Empresas e Instituciones públicas y privadas de Argentina, así como la embajada de EEUU en Argentina y Fundación Konrad Adenauer, 
           ampliando su alcance a nivel nacional. 
           <br />
-          Se consolidó como una organización que tiene el apoyo institucional de la <a href="https://fecic.org.ar" target="_blank" rel="noopener noreferrer" className="text-customCyan2 font-bold hover:text-cyan-600 transition-colors duration-300 underline decoration-customCyan2 hover:decoration-cyan-600 decoration-2 underline-offset-2">Fundación FECIC, Fundación para la Educación, la Ciencia y la Cultura</a> y es miembro de <a href="https://www.helpargentina.org/a/ong/dt/id/207/jovenes-en-accion-programa-multimedial-educativo-y-social" target="_blank" rel="noopener noreferrer" className="text-customCyan2 font-bold hover:text-cyan-600 transition-colors duration-300 underline decoration-customCyan2 hover:decoration-cyan-600 decoration-2 underline-offset-2">HELP ARGENTINA</a> y de <a href="https://potenciarsolidario.org" target="_blank" rel="noopener noreferrer" className="text-customCyan2 font-bold hover:text-cyan-600 transition-colors duration-300 underline decoration-customCyan2 hover:decoration-cyan-600 decoration-2 underline-offset-2">Fundación Potenciar Solidario</a>.  <span className="font-bold"> Ha impactado en más de 24.000 niños, adolescentes y jóvenes de todo el país.
+          Se consolidó como una organización que tiene el apoyo institucional de la <a href="https://fecic.org.ar" target="_blank" rel="noopener noreferrer" className="text-customblue font-bold hover:text-blue-600 transition-colors duration-300 underline decoration-customblue hover:decoration-blue-600 decoration-2 underline-offset-2">Fundación FECIC, Fundación para la Educación, la Ciencia y la Cultura</a> y es miembro de <a href="https://www.helpargentina.org/a/ong/dt/id/207/jovenes-en-accion-programa-multimedial-educativo-y-social" target="_blank" rel="noopener noreferrer" className="text-customblue font-bold hover:text-blue-600 transition-colors duration-300 underline decoration-customblue hover:decoration-blue-600 decoration-2 underline-offset-2">HELP ARGENTINA</a> y de <a href="https://potenciarsolidario.org" target="_blank" rel="noopener noreferrer" className="text-customblue font-bold hover:text-blue-600 transition-colors duration-300 underline decoration-customblue hover:decoration-blue-600 decoration-2 underline-offset-2">Fundación Potenciar Solidario</a>.  <span className="font-bold"> Ha impactado en más de 24.000 niños, adolescentes y jóvenes de todo el país.
           </span>
           <br /> <br />
-          Accionar de Jóvenes en Acción: distintos programas que se implementan en Buenos Aires y en diferentes provincias de Argentina:
-          <br />
-          
+          <span className="text-2xl font-semibold text-customCyan2">Accionar de Jóvenes en Acción: distintos programas que se implementan en Buenos Aires y en diferentes provincias de Argentina:</span>
+          <br /> <br /> 
           <span className="font-bold"> Programa “Salidas Culturales, Inclusivas e Integradoras” </span>
           <br /> 
           Salidas gratuitas que incluyen cines-debate, exposiciones y eventos en la Ciudad de Buenos Aires y el Gran Buenos Aires, favoreciendo la integración de jóvenes de distintas realidades socioeconómicas, con el fin de generar espacios de encuentro enriquecedores y promover el intercambio de experiencias en torno a sus carreras y vocaciones. A su vez, organiza actividades con jóvenes con discapacidad. 

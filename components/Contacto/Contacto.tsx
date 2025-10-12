@@ -38,10 +38,9 @@ export default function Contacto() {
             <span>|</span> CONTACTANOS
           </h2>
           <p>
-            Conectate con nosotros y ayudanos a marcar la diferencia. Juntos
-            podemos crear un futuro mejor para quienes más lo necesitan.
+            <span className="font-bold text-white">Conéctate con nosotros mandándonos un mensaje a nuestro Instagram para conocer más nuestra labor. </span>
           </p>
-          <form ref={form} onSubmit={sendEmail}>
+          {/*<form ref={form} onSubmit={sendEmail}>
             <div className="bloqueUno">
               <div className="formSeccion">
                 <label>NOMBRE</label>
@@ -72,33 +71,34 @@ export default function Contacto() {
               type="submit"
               value="ENVIAR"
             />
-          </form>
+          </form>*/}
         </div>
         <div className="infoContainer">
-          <a
-            href="https://www.youtube.com/user/jenaccionmultimedial"
-            target="_blank"
-            rel="noreferrer"
-            className="youtube"
-          >
-            <Image src="/youtube.svg" alt="youtube" width={24} height={24} />
-          </a>
-          <a
-            href="https://www.facebook.com/radio.jovenesenaccion"
-            target="_blank"
-            rel="noreferrer"
-            className="facebook"
-          >
-            <Image src="/facebook.svg" alt="facebook" width={24} height={24} />
-          </a>
-          <a
-            href="https://www.instagram.com/jovenes.enaccion"
-            target="_blank"
-            rel="noreferrer"
-            className="instagram"
-          >
-            <Image src="/instagram.svg" alt="instagram" width={24} height={24} />
+          {/*<h3 className="titulo-redes">Síguenos en nuestras redes sociales</h3>*/}
+          <div className="redes-iconos">
+            <a
+              href="https://www.youtube.com/user/jenaccionmultimedial"
+              target="_blank"
+              rel="noreferrer"
+              className="youtube"
+            >
+              <Image src="/youtube.svg" alt="youtube" width={24} height={24} />
             </a>
+            <a href="https://www.instagram.com/jovenes.enaccion"              
+              target="_blank"
+              rel="noreferrer"
+              className="instagram"
+            >
+              <Image src="/instagram.svg" alt="instagram" width={24} height={24} />
+            </a>
+            <a href="https://www.facebook.com/radio.jovenesenaccion"
+              target="_blank"
+              rel="noreferrer"
+              className="facebook"
+            >
+              <Image src="/facebook.svg" alt="facebook" width={24} height={24} />
+            </a>
+          </div>
         </div>
       </div>
     </div>

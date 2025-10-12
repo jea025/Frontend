@@ -14,8 +14,8 @@ import colegios2 from '../../public/colegios (2).jpeg';
 
 // Importar las imágenes de Plantación
 import plantacion1 from '../../public/Plantación.jpeg';
-import plantacion2 from '../../public/plantación (2).jpeg';
-import plantacion3 from '../../public/plantación (3).jpeg';
+import plantacion2 from '../../public/plantacion-2.jpeg';
+import plantacion3 from '../../public/plantacion-3.jpeg';
 
 // Importar las imágenes de Voluntariado
 import voluntariado1 from '../../public/voluntariado.jpeg';
@@ -42,7 +42,7 @@ const imagenesGaleriaCeos: ImagenGaleria[] = [
   {
     src: ceos3,
     alt: "Programa Jóvenes en Acción - Entrevistas",
-    titulo: "Encuentros Inspiradores"
+    titulo: "Ganadores del Premio Banco Patagonia Innova 2023 3° puesto Naturninno Invernadero autónomo"
   }
 ];
 
@@ -50,12 +50,12 @@ const imagenesColegios: ImagenGaleria[] = [
   {
     src: colegios1,
     alt: "Alumnos secundarios en programa radial",
-    titulo: "Jóvenes Conductores"
+    titulo: "Jóvenes Conductores: Alumnos de Escuela Argentina Modelo"
   },
   {
     src: colegios2,
     alt: "Estudiantes en producción de radio",
-    titulo: "Experiencia Radiofónica"
+    titulo: "Experiencia Radiofónica: Alumnos Colegio San Miguel"
   }
 ];
 
@@ -81,7 +81,7 @@ const imagenesVoluntariado: ImagenGaleria[] = [
   {
     src: voluntariado1,
     alt: "Hogar",
-    titulo: "V H"
+    titulo: "Festejo del Día del Niño en Mc Donald's"
   },
   {
     src: voluntariado2,
@@ -226,7 +226,7 @@ export default function GaleriaCeos() {
             <span className="texto-programas">Programas</span> con la{" "}
             <span className="texto-produccion">Producción y Conducción</span> de{" "}
             <span className="texto-alumnos">alumnos secundarios</span> de{" "}
-            <span className="texto-colegios">distintos Colegios</span>
+            <span className="texto-colegios">distintos Colegios en Radio Cultura</span>
           </h2>
         </div>
         
