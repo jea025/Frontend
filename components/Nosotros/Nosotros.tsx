@@ -1,6 +1,92 @@
+'use client';
+
 import Cards from "./Cards";
 
+import React, { useState } from 'react';
+// Componente individual para el bloque expandible del programa
+const ProgramBlock = ({title, shortDescription, fullDescription, isExpanded, id, onToggle }) => {
+  
+  // La función para alternar simplemente llama a la función proporcionada por el padre
+  const handleToggle = () => {
+    onToggle(id);
+  };
+  
+  return (
+    <div className="w-full bg-white p-6 rounded-xl shadow-lg border border-gray-100 mb-6 transition-all duration-300">
+      <h3 className="text-2xl font-bold text-gray-800 mb-2">{title}</h3>
+      
+      {/* RENDERIZADO CONDICIONAL BASADO EN EL ESTADO (isExpanded) */}
+      {!isExpanded ? (
+        // VISTA COLAPSADA: Texto y Botón en la misma línea (flex) para ajuste perfecto
+        <div className="flex items-end justify-between gap-4">
+          {/* El texto abreviado ocupa el espacio disponible y tiene '...' al final */}
+          <p className="text-gray-600 mb-0 flex-grow">
+            {shortDescription}...
+          </p>
+          {/* Botón Ver más */}
+          <button 
+            onClick={handleToggle}
+            className="flex-shrink-0 text-white font-semibold py-2 px-4 rounded-full transition duration-300 ease-in-out transform hover:scale-105 shadow-md"
+            style={{ backgroundColor: '#00ADB5' }}
+          >
+            Ver más
+          </button>
+        </div>
+      ) : (
+        // VISTA EXPANDIDA: Texto completo (bloque) y Botón en su propia línea
+        <>
+          <p className="text-gray-700 mb-4 whitespace-pre-line transition-all duration-500 ease-in-out">
+            {fullDescription}
+          </p>
+          {/* Botón Ver menos */}
+          <button 
+            onClick={handleToggle}
+            className="text-white font-semibold py-2 px-4 rounded-full transition duration-300 ease-in-out transform hover:scale-105 shadow-md"
+            style={{ backgroundColor: '#FF4D4D' }}
+          >
+            Ver menos
+          </button>
+        </>
+      )}
+    </div>
+  );
+};
+
 export default function Nosotros() {
+
+    // NUEVO ESTADO: openProgramId guarda el ID (índice) del programa que está abierto. 
+  // Si es null, ninguno está abierto.
+  const [openProgramId, setOpenProgramId] = useState(null);
+
+  // NUEVA FUNCIÓN: Maneja el click. Si el ID que se clica ya está abierto, lo cierra (null). 
+  // Si es un ID diferente, lo abre. Esto crea el efecto acordeón.
+  const handleProgramToggle = (id) => {
+    setOpenProgramId(prevId => (prevId === id ? null : id));
+  };
+  // Datos para los nuevos bloques expandibles (Programas)
+  const programsData = [
+    {
+      title: 'Programa “Salidas Culturales, Inclusivas e Integradoras”',
+      short: 'Salidas gratuitas que incluyen cines-debate, exposiciones y eventos en la Ciudad de Buenos Aires y el Gran Buenos Aires, favoreciendo la integración de jóvenes de distintas realidades socioeconómicas...',
+      full: 'Salidas gratuitas que incluyen cines-debate, exposiciones y eventos en la Ciudad de Buenos Aires y el Gran Buenos Aires, favoreciendo la integración de jóvenes de distintas realidades socioeconómicas, con el fin de generar espacios de encuentro enriquecedores y promover el intercambio de experiencias en torno a sus carreras y vocaciones. A su vez, organiza actividades con jóvenes con discapacidad.'
+    },
+    {
+      title: 'Programa “Capacitaciones en Oratoria y Comunicación Corporal”',
+      short: 'Talleres dirigidos a estudiantes secundarios, universitarios y profesionales que ofrecen herramientas para potenciar su seguridad y favorecer su desarrollo personal, académico, social y profesional...',
+      full: 'Talleres dirigidos a estudiantes secundarios, universitarios y profesionales (presenciales y/o virtuales) que ofrecen herramientas para potenciar su seguridad y favorecer su desarrollo personal, académico, social y profesional.'
+    },
+    {
+      title: 'Programa Voluntariado',
+      short: 'Actividades de voluntariado -recreativas, culturales, educativas y de promoción de valores- para ayudar a niños y adolescentes de hogares, escuelas y ONG...',
+      full: 'Actividades de voluntariado -recreativas, culturales, educativas y de promoción de valores- para ayudar a niños y adolescentes de hogares, escuelas y ONG. Los jóvenes voluntarios, entre ellos estudiantes universitarios y profesionales, comparten experiencias y desarrollan habilidades como compromiso, trabajo en equipo y liderazgo. Además, se organizan funciones solidarias de cine-debate de Metegol para 200 chicos que nunca fueron al cine, con el apoyo de empresas y ONG.'
+    },
+    {
+      title: 'Programa “Forestación, Educación y Valores”',
+      short: 'Programa federal de triple impacto en el que 25 jóvenes líderes de Argentina -primeros estudiantes universitarios de sus familias- comparten su testimonio de vida inspirador a alumnos secundarios de escuelas de zonas vulnerables...',
+      full: 'Programa federal de triple impacto en el que 25 jóvenes líderes de Argentina -primeros estudiantes universitarios de sus familias- comparten su testimonio de vida inspirador a alumnos secundarios de escuelas de zonas vulnerables, en las localidades de origen de cada joven. Junto con los adolescentes, plantan árboles frutales que darán alimento saludable y contribuyen al cuidado del medio ambiente. Hasta el momento, se plantaron 57 árboles del total de 250 planificados.'
+    }
+  ];
+
   return (
     <div className="w-full h-auto">
       <div className="mt-8 mb-8 p-4">
@@ -24,7 +110,11 @@ export default function Nosotros() {
           Se consolidó como una organización que tiene el apoyo institucional de la <a href="https://fecic.org.ar" target="_blank" rel="noopener noreferrer" className="text-customblue font-bold hover:text-blue-600 transition-colors duration-300 underline decoration-customblue hover:decoration-blue-600 decoration-2 underline-offset-2">Fundación FECIC, Fundación para la Educación, la Ciencia y la Cultura</a> y es miembro de <a href="https://www.helpargentina.org/a/ong/dt/id/207/jovenes-en-accion-programa-multimedial-educativo-y-social" target="_blank" rel="noopener noreferrer" className="text-customblue font-bold hover:text-blue-600 transition-colors duration-300 underline decoration-customblue hover:decoration-blue-600 decoration-2 underline-offset-2">HELP ARGENTINA</a> y de <a href="https://potenciarsolidario.org" target="_blank" rel="noopener noreferrer" className="text-customblue font-bold hover:text-blue-600 transition-colors duration-300 underline decoration-customblue hover:decoration-blue-600 decoration-2 underline-offset-2">Fundación Potenciar Solidario</a>.  <span className="font-bold"> Ha impactado en más de 24.000 niños, adolescentes y jóvenes de todo el país.
           </span>
           <br /> <br />
-          <span className="text-2xl font-semibold text-customCyan2">Accionar de Jóvenes en Acción: distintos programas que se implementan en Buenos Aires y en diferentes provincias de Argentina:</span>
+          
+          {/*<div className="w-full h-1 bg-gray-300 mt-24 mb-24 border-r-1"></div>*/}
+
+               
+          {/*<span className="text-2xl font-semibold text-customCyan2">Accionar de Jóvenes en Acción: distintos programas que se implementan en Buenos Aires y en diferentes provincias de Argentina:</span>
           <br /> <br /> 
           <span className="font-bold"> Programa “Salidas Culturales, Inclusivas e Integradoras” </span>
           <br /> 
@@ -44,7 +134,7 @@ export default function Nosotros() {
           <span className="font-bold"> Programa “Forestación, Educación y Valores” </span> 
           <br />
           Programa federal de triple impacto en el que 25 jóvenes líderes de Argentina -primeros estudiantes universitarios de sus familias- comparten su testimonio de vida inspirador a alumnos secundarios de escuelas de zonas vulnerables, en las localidades de origen de cada joven. Junto con los adolescentes, plantan árboles frutales que darán alimento saludable y contribuyen al cuidado del medio ambiente. Hasta el momento, se plantaron 57 árboles del total de 250 planificados.
-          <br/><br/>
+          <br/><br/>*/}
 
           <span className="font-bold"> Encuentros Nacionales de Jóvenes Líderes </span> 
           <br />
@@ -55,6 +145,24 @@ export default function Nosotros() {
           con la idea, producción y realización de la Lic. Carmen Sicardi quien pensó este proyecto al ver la necesidad de ofrecer una mirada optimista y esperanzadora sobre la juventud. Desde sus inicios hasta la fecha más de 24.000 jóvenes participaron. Gran cantidad de estudiantes secundarios de colegios de Buenos Aires provenientes de escuelas públicas, privadas, 
           de distintas confesiones religiosas y laicas hicieron posible reflejar las distintas realidades que viven los chicos, superando las diferencias, creando un verdadero diálogo.*/}
         </p>
+      </div>
+
+      {/* Bloques Expandibles de Programas */}
+      <div className="w-full p-4 md:p-8">
+        <h2 className="mt-8 mb-8 text-3xl font-bold text-gray-800">
+          <span className="text-customCyan2">|</span> Nuestros Programas
+        </h2>
+        {programsData.map((program, index) => (
+          <ProgramBlock 
+            key={index}
+            id={index} // Pasamos el índice como ID
+            title={program.title}
+            shortDescription={program.short}
+            fullDescription={program.full}
+            isExpanded={openProgramId === index} // Verifica si este es el programa abierto
+            onToggle={handleProgramToggle} // Pasa la función para manejar el estado
+          />
+        ))}
       </div>
       
       <div className="flex flex-col justify-center items-center h-size bg-no-repeat bg-cover bg-fixed bg-center bg-radio">
