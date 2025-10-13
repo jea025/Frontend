@@ -72,18 +72,23 @@ export default function Nosotros() {
     },
     {
       title: 'Programa “Capacitaciones en Oratoria y Comunicación Corporal”',
-      short: 'Talleres dirigidos a estudiantes secundarios, universitarios y profesionales que ofrecen herramientas para potenciar su seguridad y favorecer su desarrollo personal, académico, social y profesional...',
+      short: 'Talleres dirigidos a estudiantes secundarios, universitarios y profesionales que ofrecen herramientas para potenciar su seguridad y favorecer su ...',
       full: 'Talleres dirigidos a estudiantes secundarios, universitarios y profesionales (presenciales y/o virtuales) que ofrecen herramientas para potenciar su seguridad y favorecer su desarrollo personal, académico, social y profesional.'
     },
     {
       title: 'Programa Voluntariado',
-      short: 'Actividades de voluntariado -recreativas, culturales, educativas y de promoción de valores- para ayudar a niños y adolescentes de hogares, escuelas y ONG...',
-      full: 'Actividades de voluntariado -recreativas, culturales, educativas y de promoción de valores- para ayudar a niños y adolescentes de hogares, escuelas y ONG. Los jóvenes voluntarios, entre ellos estudiantes universitarios y profesionales, comparten experiencias y desarrollan habilidades como compromiso, trabajo en equipo y liderazgo. Además, se organizan funciones solidarias de cine-debate de Metegol para 200 chicos que nunca fueron al cine, con el apoyo de empresas y ONG.'
+      short: 'Actividades de voluntariado -recreativas, culturales, educativas y de promoción de valores- para ayudar a niños y adolescentes de hogares, escuelas y ONGs...',
+      full: 'Actividades de voluntariado -recreativas, culturales, educativas y de promoción de valores- para ayudar a niños y adolescentes de hogares, escuelas y ONGs. Los jóvenes voluntarios, entre ellos estudiantes universitarios y profesionales, comparten experiencias y desarrollan habilidades como compromiso, trabajo en equipo y liderazgo. Además, se organizan funciones solidarias de cine-debate de Metegol para 200 chicos que nunca fueron al cine, con el apoyo de empresas y ONGs.'
     },
     {
       title: 'Programa “Forestación, Educación y Valores”',
       short: 'Programa federal de triple impacto en el que 25 jóvenes líderes de Argentina -primeros estudiantes universitarios de sus familias- comparten su testimonio de vida inspirador a alumnos secundarios de escuelas de zonas vulnerables...',
       full: 'Programa federal de triple impacto en el que 25 jóvenes líderes de Argentina -primeros estudiantes universitarios de sus familias- comparten su testimonio de vida inspirador a alumnos secundarios de escuelas de zonas vulnerables, en las localidades de origen de cada joven. Junto con los adolescentes, plantan árboles frutales que darán alimento saludable y contribuyen al cuidado del medio ambiente. Hasta el momento, se plantaron 57 árboles del total de 250 planificados.'
+    },
+    {
+      title: 'Encuentros Nacionales de Jóvenes Líderes”',
+      short: 'Entre 2013 y 2018 se realizaron 10 encuentros con un total de 100 estudiantes universitarios -primeros de sus familias- provenientes de 16 provincias, seleccionados por ONGs...',
+      full: 'Entre 2013 y 2018 se realizaron 10 encuentros con un total de 100 estudiantes universitarios -primeros de sus familias- provenientes de 16 provincias, seleccionados por ONGs que los becaban en sus estudios para recibir capacitaciones, adquirir experiencias en empresas e instituciones y participar en actividades culturales y de voluntariado. Los encuentros se llevaron a cabo en la Ciudad Autónoma de Buenos Aires (CABA) y en siete provincias, con el apoyo de un valioso equipo de jóvenes estudiantes universitarios y profesionales, el Departamento de Estado de EE.UU y su embajada en Argentina, la Fundación Konrad Adenauer, empresas y en alianza con diversas ONGs.'
     }
   ];
 
@@ -94,18 +99,14 @@ export default function Nosotros() {
           <span className="text-customCyan2">|</span> Acerca de nosotros
         </h2>
         <p className="text-xl">
-          <span className="font-bold">Jóvenes en Acción</span> nació en 1997 como un programa de radio en Radio Cultura creado por la Lic. Carmen Sicardi, fundadora y directora del proyecto. Su objetivo fue crear un espacion donde los adolescentes pudieran expresar con 
-          libertad, responsabilidad y compromiso su sentir y pensar.  
+          <span className="font-bold">Jóvenes en Acción</span> nació en 1997 como un programa de radio en Radio Cultura creado por la Lic. Carmen Sicardi, fundadora y directora del proyecto. Su objetivo fue crear un espacion donde los adolescentes pudieran expresar con libertad, responsabilidad y compromiso su sentir y pensar.  
           <br />
           Alumnos secundarios a cargo de la producción y conducción, abordan temas que despiertan su interés o generan preocupación en la búsqueda de respuestas a sus inquietudes supervisados en sus colegios por la Lic. Sicardi. 
           Así, se les brinda un espacio reflexivo en un medio de comunicación, promueve el trabajo en equipo y el desarrollo de habilidades socioemocionales. Hasta la fecha participaron 60 colegios de CABA y GBA.
           <br />
-          Desde 2010, amplió su accionar a jóvenes mayores de 17 años (estudiantes del último año del secundario, de la universidad, profesionales, que provienen de distintas realidades socioeconómicas, jóvenes líderes de ONGS o 
-          emprendimientos), para entrevistar en la radio a CEOS, directivos de empresas y especialistas, generando un puente entre generaciones para que los inspiren. También intermedia para que los jóvenes, en situación de vulnerabilidad 
-          social, obtengan becas universitarias, a quienes acompaña a lo largo de sus carreras y facilita el acceso empleos.
+          Desde 2010, amplió su accionar a jóvenes mayores de 17 años (estudiantes del último año del secundario, de la universidad, profesionales, que provienen de distintas realidades socioeconómicas, jóvenes líderes de ONGS o emprendimientos), para entrevistar en la radio a CEOS, directivos de empresas y especialistas, generando un puente entre generaciones para que los inspiren. También intermedia para que los jóvenes, en situación de vulnerabilidad social, obtengan becas universitarias, a quienes acompaña a lo largo de sus carreras y facilita el acceso empleos.
           <br />
-          En el 2012, la Lic. Sicardi comenzó a implementar diferentes proyectos por fuera del espacio radial, en alianza con ONGs, Empresas e Instituciones públicas y privadas de Argentina, así como la embajada de EEUU en Argentina y Fundación Konrad Adenauer, 
-          ampliando su alcance a nivel nacional. 
+          En el 2012, la Lic. Sicardi comenzó a implementar diferentes proyectos por fuera del espacio radial, en alianza con ONGs, Empresas e Instituciones públicas y privadas de Argentina, así como la embajada de EEUU en Argentina y Fundación Konrad Adenauer, ampliando su alcance a nivel nacional. 
           <br />
           Se consolidó como una organización que tiene el apoyo institucional de la <a href="https://fecic.org.ar" target="_blank" rel="noopener noreferrer" className="text-customblue font-bold hover:text-blue-600 transition-colors duration-300 underline decoration-customblue hover:decoration-blue-600 decoration-2 underline-offset-2">Fundación FECIC, Fundación para la Educación, la Ciencia y la Cultura</a> y es miembro de <a href="https://www.helpargentina.org/a/ong/dt/id/207/jovenes-en-accion-programa-multimedial-educativo-y-social" target="_blank" rel="noopener noreferrer" className="text-customblue font-bold hover:text-blue-600 transition-colors duration-300 underline decoration-customblue hover:decoration-blue-600 decoration-2 underline-offset-2">HELP ARGENTINA</a> y de <a href="https://potenciarsolidario.org" target="_blank" rel="noopener noreferrer" className="text-customblue font-bold hover:text-blue-600 transition-colors duration-300 underline decoration-customblue hover:decoration-blue-600 decoration-2 underline-offset-2">Fundación Potenciar Solidario</a>.  <span className="font-bold"> Ha impactado en más de 24.000 niños, adolescentes y jóvenes de todo el país.
           </span>
@@ -134,12 +135,12 @@ export default function Nosotros() {
           <span className="font-bold"> Programa “Forestación, Educación y Valores” </span> 
           <br />
           Programa federal de triple impacto en el que 25 jóvenes líderes de Argentina -primeros estudiantes universitarios de sus familias- comparten su testimonio de vida inspirador a alumnos secundarios de escuelas de zonas vulnerables, en las localidades de origen de cada joven. Junto con los adolescentes, plantan árboles frutales que darán alimento saludable y contribuyen al cuidado del medio ambiente. Hasta el momento, se plantaron 57 árboles del total de 250 planificados.
-          <br/><br/>*/}
+          <br/><br/>
 
           <span className="font-bold"> Encuentros Nacionales de Jóvenes Líderes </span> 
           <br />
           Entre 2013 y 2018 se realizaron 10 encuentros con un total de 100 estudiantes universitarios -primeros de sus familias- provenientes de 16 provincias, seleccionados por ONG que los becaban en sus estudios para recibir capacitaciones, adquirir experiencias en empresas e instituciones y participar en actividades culturales y de voluntariado. Los encuentros se llevaron a cabo en la Ciudad Autónoma de Buenos Aires (CABA) y en siete provincias, con el apoyo de un valioso equipo de jóvenes estudiantes universitarios y profesionales, el Departamento de Estado de EE. UU. y su embajada en Argentina, la Fundación Konrad Adenauer, empresas y en alianza con diversas ONG.
-          <br/>
+          <br/>*/}
             
           {/*Nuestra misión consiste en brindarles un lugar de expresión y encuentro, de modo de sembrar una mayor conciencia y compromiso social. Esta propuesta cumple ya 28 años de trayectoria, 
           con la idea, producción y realización de la Lic. Carmen Sicardi quien pensó este proyecto al ver la necesidad de ofrecer una mirada optimista y esperanzadora sobre la juventud. Desde sus inicios hasta la fecha más de 24.000 jóvenes participaron. Gran cantidad de estudiantes secundarios de colegios de Buenos Aires provenientes de escuelas públicas, privadas, 
