@@ -35,7 +35,7 @@ export default function Footer() {
       <div className="w-full pt-6">
         <h3 className="text-white text-center select-none font-light">
           <p className="text-xl">
-            © 2025 Jóvenes en Acción. Todos los derechos reservados.
+            © 2026 Jóvenes en Acción. Todos los derechos reservados.
           </p>
         </h3>
       </div>
