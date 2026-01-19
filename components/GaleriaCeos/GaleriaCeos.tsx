@@ -220,35 +220,41 @@ export default function GaleriaCeos() {
         {renderGaleria(imagenesGaleriaCeos, 'ceos', true)} 
 
 
-        {/* --- VIDEO CON TÍTULO ESTILIZADO --- */}
-        <div className="flex flex-col items-center justify-center mt-10 pb-16">
+        {/* --- SECCIÓN DE VIDEO INTEGRADA --- */}
+        <div className="flex flex-col items-center justify-center mt-12 pb-20">
           
-          <div className="relative mb-8 flex flex-col items-center">
-            <h3 className="text-black text-2xl font-bold tracking-[0.2em] uppercase drop-shadow-md">
+          {/* Título con estilo y línea decorativa */}
+          <div className="relative mb-10 flex flex-col items-center">
+            <h3 className="text-black text-2xl font-bold tracking-[0.2em] uppercase drop-shadow-lg text-center">
               Eventos en los que hemos participado:
             </h3>
-            {/* Línea decorativa debajo del título */}
-            <div className="h-1 w-20 bg-white/40 mt-2 rounded-full shadow-inner"></div>
+            <div className="h-1.5 w-16 bg-white/30 mt-3 rounded-full shadow-inner"></div>
           </div>
 
-          <div className="w-full max-w-[280px] overflow-hidden rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.5)] border-[6px] border-white/20 bg-black/40">
+          {/* Contenedor del Video con marco de cristal */}
+          <div className="w-full max-w-[280px] overflow-hidden rounded-[2.5rem] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.6)] border-[6px] border-white/20 bg-black/40">
             <video 
               controls 
+              preload="metadata"
+              poster="/miniatura_video_barcelo.png"
               className="w-full h-auto block"
             >
-              <source src="/JEA_Fundacion_Barcelo.mp4" type="video/mp4" />
+              {/* Usamos #t=0.001 para que la miniatura sea el primer frame del video */}
+              <source src="/JEA_Fundacion_Barcelo.mp4#t=0.001" type="video/mp4" />
               Tu navegador no soporta videos.
             </video>
           </div>
           
-          <div className="mt-6 flex items-center gap-2">
-             <span className="w-8 h-[1px] bg-white/20"></span>
-             <p className="text-white/60 italic text-xs uppercase tracking-widest font-medium">
+          {/* Pie de video con separadores minimalistas */}
+          <div className="mt-8 flex items-center gap-4">
+             <span className="w-10 h-[1px] bg-white/20"></span>
+             <p className="text-white/60 italic text-xs uppercase tracking-[0.3em] font-medium">
                Radio Cultura
              </p>
-             <span className="w-8 h-[1px] bg-white/20"></span>
+             <span className="w-10 h-[1px] bg-white/20"></span>
           </div>
         </div>
+        {/* --- FIN SECCIÓN DE VIDEO --- */}
 
       </div>
 
