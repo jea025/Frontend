@@ -218,44 +218,6 @@ export default function GaleriaCeos() {
         </div>
 
         {renderGaleria(imagenesGaleriaCeos, 'ceos', true)} 
-
-
-        {/* --- SECCIÓN DE VIDEO INTEGRADA --- */}
-        <div className="flex flex-col items-center justify-center mt-12 pb-20">
-          
-          {/* Título con estilo y línea decorativa */}
-          <div className="relative mb-10 flex flex-col items-center">
-            <h3 className="text-black text-2xl font-bold tracking-[0.2em] uppercase drop-shadow-lg text-center">
-              Eventos en los que hemos participado:
-            </h3>
-            <div className="h-1.5 w-16 bg-white/30 mt-3 rounded-full shadow-inner"></div>
-          </div>
-
-          {/* Contenedor del Video con marco de cristal */}
-          <div className="w-full max-w-[280px] overflow-hidden rounded-[2.5rem] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.6)] border-[6px] border-white/20 bg-black/40">
-            <video 
-              controls 
-              preload="metadata"
-              poster="/miniatura_video_barcelo.png"
-              className="w-full h-auto block"
-            >
-              {/* Usamos #t=0.001 para que la miniatura sea el primer frame del video */}
-              <source src="/JEA_Fundacion_Barcelo.mp4#t=0.001" type="video/mp4" />
-              Tu navegador no soporta videos.
-            </video>
-          </div>
-          
-          {/* Pie de video con separadores minimalistas */}
-          <div className="mt-8 flex items-center gap-4">
-             <span className="w-10 h-[1px] bg-white/20"></span>
-             <p className="text-white/60 italic text-xs uppercase tracking-[0.3em] font-medium">
-               Radio Cultura
-             </p>
-             <span className="w-10 h-[1px] bg-white/20"></span>
-          </div>
-        </div>
-        {/* --- FIN SECCIÓN DE VIDEO --- */}
-
       </div>
 
       {/* Segunda sección - Alumnos Secundarios */}
@@ -270,6 +232,62 @@ export default function GaleriaCeos() {
         </div>
         
         {renderGaleria(imagenesColegios, 'colegios')}
+
+ {/* --- SECCIÓN: EVENTOS Y ESTUDIANTES (SIN RECTÁNGULO DE FONDO) --- */}
+        <div className="flex flex-col items-center justify-center mt-16 pb-20 px-4">
+          
+          {/* Título - Sin fondo, integrado al flujo */}
+          <div className="relative mb-8 flex flex-col items-center">
+            <h3 className="text-slate-800 text-3xl md:text-4xl font-extrabold tracking-tight text-center">
+              Eventos en los que participamos:
+            </h3>
+            {/* Una línea un poco más estética */}
+            <div className="h-1.5 w-16 bg-blue-600 mt-4 rounded-full"></div>
+          </div>
+
+          {/* Descripción - Color sólido sin transparencias extrañas */}
+          <p className="max-w-2xl text-slate-700 text-center text-sm md:text-base leading-relaxed mb-10 font-medium px-2">
+            ¡Presentes en el lanzamiento del primer <span className="font-bold text-blue-700">"Colectivo Saludable y Sustentable"</span> de Argentina! 
+            Contó con la colaboración de Fundación Barceló y otras universidades, donde nuestra integrante 
+            <span className="text-slate-900 font-bold border-b-2 border-blue-200"> Francesca Simonotto</span> (alumna de Medicina de Barceló) representó a Jóvenes en Acción.
+          </p>
+
+          {/* Contenedor del Video - Ahora con una sombra más suave para que no "explote" sobre el fondo */}
+          <div className="w-full max-w-[280px] overflow-hidden rounded-[2.5rem] shadow-xl border-[6px] border-slate-100 bg-black">
+            <video 
+              controls 
+              preload="metadata"
+              poster="/miniatura_video_barcelo.png"
+              className="w-full h-auto block"
+            >
+              <source src="/JEA_Fundacion_Barcelo.mp4#t=0.001" type="video/mp4" />
+              Tu navegador no soporta videos.
+            </video>
+          </div>
+          
+          {/* Botón de Instagram - Estilo minimalista */}
+          <a 
+            href="https://www.instagram.com/reel/DPT4ZUMDSDH/" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="mt-10 flex items-center gap-2 px-8 py-3 bg-slate-900 hover:bg-black rounded-xl text-white text-sm font-bold transition-all shadow-lg hover:shadow-xl active:scale-95"
+          >
+            <svg 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              stroke="currentColor" 
+              strokeWidth="2" 
+              className="w-5 h-5 text-pink-400"
+            >
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+            Ver Reel completo
+          </a>
+
+        </div>
+
       </div>
 
       {/* Tercera sección - Forestación */}
