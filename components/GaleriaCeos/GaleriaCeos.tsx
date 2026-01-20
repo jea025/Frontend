@@ -42,7 +42,7 @@ const imagenesGaleriaCeos: ImagenGaleria[] = [
   {
     src: ceos3,
     alt: "Programa Jóvenes en Acción - Entrevistas",
-    titulo: "Encuentros Inspiradores"
+    titulo: "Entrevista al equipo ganador del 3er puesto del Premio Banco Patagonia Innova del 2013"
   }
 ];
 
