@@ -5,6 +5,10 @@ import { useState } from "react";
 import carouselData from "@/data/carousel.json";
 import { StaticImageData } from "next/image";
 
+// CONFIGURACIÓN DE VACACIONES
+const FECHA_REGRESO = "el jueves 19 de febrero de 20 a 21 hs"; // Texto que verá la gente
+const FECHA_LIMITE = new Date("2026-02-19"); // Fecha para que el cartel desaparezca solo
+
 // Importar imágenes
 import car1 from "../../public/car1.jpeg";
 import car2 from "../../public/car2.jpg";
@@ -19,6 +23,10 @@ const imageMap: Record<string, StaticImageData> = {
 export default function ControlledCarousel() {
   const [index, setIndex] = useState<number>(0);
 
+  // Lógica automática: si hoy es antes de la fecha límite, estamos en vacaciones
+  const hoy = new Date();
+  const esVacaciones = hoy < FECHA_LIMITE;
+
   const handleSelect = (selectedIndex: number) => {
     setIndex(selectedIndex);
   };
@@ -30,7 +38,6 @@ export default function ControlledCarousel() {
       <Carousel activeIndex={index} onSelect={handleSelect} interval={5000} indicators={true}>
         {slides.map((slide, idx) => (
           <Carousel.Item key={slide.id}>
-            {/* Contenedor de la imagen */}
             <div className="relative overflow-hidden">
               <ExampleCarouselImage 
                 img={imageMap[slide.image]} 
@@ -38,8 +45,7 @@ export default function ControlledCarousel() {
               />
             </div>
 
-            {/* CAPTION ADAPTATIVO CON ALTURA FIJA Y ESPACIO PARA INDICADORES */}
-            <div className="static md:absolute md:bottom-0 md:left-0 md:right-0 bg-slate-900 md:bg-black/50 text-white p-6 pb-14 md:p-12 text-center backdrop-blur-sm transition-all min-h-[250px] md:min-h-[auto] flex flex-col justify-center">
+            <div className="static md:absolute md:bottom-0 md:left-0 md:right-0 bg-slate-900 md:bg-black/50 text-white p-6 pb-14 md:p-12 text-center backdrop-blur-sm transition-all min-h-[260px] md:min-h-[auto] flex flex-col justify-center">
               
               <p className="text-blue-400 text-xs md:text-sm uppercase tracking-[0.2em] font-bold mb-2">
                 {slide.category}
@@ -50,9 +56,18 @@ export default function ControlledCarousel() {
               </h2>
 
               {slide.subtitle && (
-                <p className="text-slate-300 text-sm md:text-lg font-light mb-4">
-                  {slide.subtitle}
-                </p>
+                <div className="mb-4">
+                  {/* Si es el slide de la radio (ID 1) y estamos en vacaciones, cambia el texto */}
+                  {slide.id === 1 && esVacaciones ? (
+                    <p className="text-yellow-400 bg-yellow-400/10 border border-yellow-400/30 px-4 py-2 rounded-lg inline-block text-sm md:text-lg font-bold animate-pulse">
+                      ✨ Retomamos la programación {FECHA_REGRESO}
+                    </p>
+                  ) : (
+                    <p className="text-slate-300 text-sm md:text-lg font-light">
+                      {slide.subtitle}
+                    </p>
+                  )}
+                </div>
               )}
 
               {slide.link && (
@@ -69,14 +84,17 @@ export default function ControlledCarousel() {
         ))}
       </Carousel>
 
-      {/* Ajuste para que el carrusel no corte el texto en mobile */}
       <style jsx global>{`
         .carousel-item {
-          background-color: #0f172a; /* Fondo oscuro por si la imagen tarda en cargar */
+          background-color: #0f172a;
         }
         @media (max-width: 768px) {
           .carousel-caption {
-            display: none; /* Desactivamos el caption original de Bootstrap que falla en mobile */
+            display: none !important;
+          }
+          /* Ajuste para los puntitos del carrusel en móvil */
+          .carousel-indicators {
+            bottom: 5px !important;
           }
         }
       `}</style>

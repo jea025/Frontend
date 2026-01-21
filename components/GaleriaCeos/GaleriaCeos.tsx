@@ -32,7 +32,7 @@ const imagenesGaleriaCeos: ImagenGaleria[] = [
   {
     src: ceos1,
     alt: "Entrevista con CEOs y Emprendedores - Sesión 1",
-    titulo: "Entrevistas con CEO de GOOGLE"
+    titulo: "Entrevista con Victor Valle CEO de GOOGLE regional"
   },
   {
     src: ceos2,
