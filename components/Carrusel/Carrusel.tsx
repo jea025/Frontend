@@ -38,9 +38,8 @@ export default function ControlledCarousel() {
               />
             </div>
 
-            {/* CAPTION ADAPTATIVO */}
-            {/* 'static' y 'bg-slate-900' para celular (abajo) | 'md:absolute' y 'md:bg-black/40' para PC (encima) */}
-            <div className="static md:absolute md:bottom-0 md:left-0 md:right-0 bg-slate-900 md:bg-black/50 text-white p-6 md:p-12 text-center backdrop-blur-sm transition-all">
+            {/* CAPTION ADAPTATIVO CON ALTURA FIJA Y ESPACIO PARA INDICADORES */}
+            <div className="static md:absolute md:bottom-0 md:left-0 md:right-0 bg-slate-900 md:bg-black/50 text-white p-6 pb-14 md:p-12 text-center backdrop-blur-sm transition-all min-h-[250px] md:min-h-[auto] flex flex-col justify-center">
               
               <p className="text-blue-400 text-xs md:text-sm uppercase tracking-[0.2em] font-bold mb-2">
                 {slide.category}
@@ -60,7 +59,7 @@ export default function ControlledCarousel() {
                 <a 
                   href={slide.link.url} 
                   target="_blank"
-                  className="inline-block mt-2 text-blue-400 hover:text-white underline text-xs md:text-sm break-all"
+                  className="inline-block mt-2 text-blue-400 hover:text-white underline text-xs md:text-sm break-all mb-4"
                 >
                   {slide.link.text}
                 </a>
