@@ -4,6 +4,7 @@ import ExampleCarouselImage from "./ExampleCarouselImage";
 import { useState } from "react";
 import carouselData from "@/data/carousel.json";
 import { StaticImageData } from "next/image";
+import { FaBroadcastTower, FaYoutube } from "react-icons/fa";
 
 // CONFIGURACIÓN DE VACACIONES
 const FECHA_REGRESO = "el jueves 19 de febrero de 20 a 21 hs"; // Texto que verá la gente
@@ -34,8 +35,8 @@ export default function ControlledCarousel() {
   const slides = carouselData.hero.slides;
 
   return (
-    <div className="carousel-wrapper">
-      <Carousel activeIndex={index} onSelect={handleSelect} interval={5000} indicators={true}>
+    <div className="carousel-wrapper w-full">
+      <Carousel activeIndex={index} onSelect={handleSelect} interval={5000} indicators={true} className="w-full">
         {slides.map((slide, idx) => (
           <Carousel.Item key={slide.id}>
             <div className="relative overflow-hidden">
@@ -45,7 +46,7 @@ export default function ControlledCarousel() {
               />
             </div>
 
-            <div className="static md:absolute md:bottom-0 md:left-0 md:right-0 bg-slate-900 md:bg-black/50 text-white p-6 pb-14 md:p-12 text-center backdrop-blur-sm transition-all min-h-[260px] md:min-h-[auto] flex flex-col justify-center">
+            <div className="static md:absolute md:bottom-0 md:left-0 md:right-0 bg-slate-900 md:bg-black/50 text-white p-6 pb-20 md:p-12 md:pb-12 text-center backdrop-blur-sm transition-all min-h-[260px] md:min-h-[320px] md:max-h-[380px] flex flex-col justify-center">
               
               <p className="text-blue-400 text-xs md:text-sm uppercase tracking-[0.2em] font-bold mb-2">
                 {slide.category}
@@ -71,13 +72,28 @@ export default function ControlledCarousel() {
               )}
 
               {slide.link && (
-                <a 
-                  href={slide.link.url} 
-                  target="_blank"
-                  className="inline-block mt-2 text-blue-400 hover:text-white underline text-xs md:text-sm break-all mb-4"
-                >
-                  {slide.link.text}
-                </a>
+                <div className="flex flex-col gap-3 mt-2 mb-4 items-center justify-center">
+                  <a 
+                    href={slide.link.url} 
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-blue-400 hover:text-white underline text-xs md:text-sm break-all justify-center"
+                  >
+                    <FaBroadcastTower className="text-base md:text-lg flex-shrink-0" />
+                    <span>{slide.link.text}</span>
+                  </a>
+                  {(slide as any).youtubeLink && (
+                    <a 
+                      href={(slide as any).youtubeLink.url} 
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 text-red-400 hover:text-white underline text-xs md:text-sm break-all justify-center"
+                    >
+                      <FaYoutube className="text-base md:text-lg flex-shrink-0" />
+                      <span>{(slide as any).youtubeLink.text}</span>
+                    </a>
+                  )}
+                </div>
               )}
             </div>
           </Carousel.Item>
@@ -85,16 +101,60 @@ export default function ControlledCarousel() {
       </Carousel>
 
       <style jsx global>{`
+        .carousel-wrapper {
+          width: 100%;
+          overflow: hidden;
+          margin: 0;
+          padding: 0;
+        }
+        .carousel {
+          width: 100%;
+          margin: 0;
+          padding: 0;
+        }
+        .carousel-inner {
+          width: 100%;
+          margin: 0;
+          padding: 0;
+        }
         .carousel-item {
           background-color: #0f172a;
+          width: 100%;
+          margin: 0;
+          padding: 0;
+        }
+        .carousel-item > div {
+          width: 100%;
+          margin: 0;
+          padding: 0;
+        }
+        .carousel-item img {
+          width: 100% !important;
+          height: auto;
+          object-fit: cover;
+          object-position: center 25%;
+          display: block;
+          margin: 0;
+          padding: 0;
         }
         @media (max-width: 768px) {
           .carousel-caption {
             display: none !important;
           }
-          /* Ajuste para los puntitos del carrusel en móvil */
+          /* Ajuste para los puntitos del carrusel en móvil - más cerca del contenido */
           .carousel-indicators {
-            bottom: 5px !important;
+            bottom: 24px !important;
+            margin-bottom: 0 !important;
+          }
+          /* Espacio adicional para evitar superposición con indicadores */
+          .carousel-item > div:last-child {
+            padding-bottom: 4.5rem !important;
+          }
+        }
+        /* Ajuste para desktop también */
+        @media (min-width: 769px) {
+          .carousel-indicators {
+            bottom: 20px !important;
           }
         }
       `}</style>

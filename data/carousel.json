@@ -10,6 +10,10 @@
         "link": {
           "url": "https://www.fmradiocultura.com.ar/radio-cultura-en-vivo",
           "text": "www.fmradiocultura.com.ar/radio-cultura-en-vivo"
+        },
+        "youtubeLink": {
+          "url": "https://www.youtube.com/@radioculturaba",
+          "text": "www.youtube.com/@radioculturaba"
         }
       },
       {

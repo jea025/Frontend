@@ -3,6 +3,8 @@ import Image from "next/image";
 import afiche from '../../public/afiche.jpg';
 import santaClaraImg from '../../public/Santa Clara Premio.jpg';
 import embajadaEEUUImg from '../../public/Embajada EEUU.jpg';
+import santaClaraAlumnosImg from "../../public/Foto-Alumnos-Santa-Clara-Asis.jpeg";
+// La estatuilla la usaremos directamente por ruta ya que es para un link
 
 export default function Prensa() {
   return (
@@ -199,16 +201,44 @@ export default function Prensa() {
                 <h3 className="premioTitulo">Premio Santa Clara de Asís (2001)</h3>
                 <p className="premioDescripcion">
                   📍 Otorgado por la Liga de Madres de Familia<br />
-                  📸 Incluye fotos del evento<br />
-                  Reconocimiento a Jóvenes en Acción por su aporte a la comunicación con valores intelectuales y morales a través de medios de comunicación.
+                  Reconocimiento a Jóvenes en Acción por {" "}
+                  <a 
+                    href="/Estatuilla-Santa-Clara-Asis.jpeg" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-blue-500 underline font-semibold hover:text-blue-700"
+                  >
+                    [ver diploma]
+                  </a>
                 </p>
               </div>
-              <div className="premioImagenes">
-                <Image 
-                  src={santaClaraImg} 
-                  alt="Premio Santa Clara de Asís - Ceremonia de entrega" 
-                  className="imagenPremio"
-                />
+              
+              {/* CONTENEDOR DE IMÁGENES: 'flex-col' para celu, 'md:flex-row' para PC */}
+              <div className="premioImagenes flex flex-col md:flex-row gap-4 mt-4">
+                
+                {/* Primera Imagen: Entrega */}
+                <a href={santaClaraImg.src} target="_blank" rel="noopener noreferrer" className="cursor-zoom-in block">
+                  <Image 
+                    src={santaClaraImg} 
+                    alt="Premio Santa Clara de Asís - Ceremonia de entrega" 
+                    className="imagenPremio hover:opacity-90 transition-opacity rounded-lg"
+                    width={300}
+                    height={200}
+                    style={{ objectFit: 'cover' }}
+                  />
+                </a>
+
+                {/* Segunda Imagen: Alumnos */}
+                <a href={santaClaraAlumnosImg.src} target="_blank" rel="noopener noreferrer" className="cursor-zoom-in block">
+                  <Image 
+                    src={santaClaraAlumnosImg} 
+                    alt="Alumnos Santa Clara de Asís" 
+                    className="imagenPremio hover:opacity-90 transition-opacity rounded-lg"
+                    width={300}
+                    height={200}
+                    style={{ objectFit: 'cover' }}
+                  />
+                </a>
               </div>
             </div>
 
@@ -222,12 +252,23 @@ export default function Prensa() {
                   El Proyecto PLIMIC (Programa de Liderazgo Inclusivo, Multimedial y Cultural) fue financiado por el Departamento de Estado de EEUU y supervisado por la Embajada. Jóvenes en Acción recibió un diploma en reconocimiento a su labor.
                 </p>
               </div>
+              
               <div className="premioImagenes">
-                <Image 
-                  src={embajadaEEUUImg} 
-                  alt="Reconocimiento Embajada de Estados Unidos - Ceremonia" 
-                  className="imagenPremio"
-                />
+                {/* Enlace para expandir la imagen en otra pestaña */}
+                <a 
+                  href={embajadaEEUUImg.src} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="cursor-zoom-in block"
+                >
+                  <Image 
+                    src={embajadaEEUUImg} 
+                    alt="Reconocimiento Embajada de Estados Unidos - Ceremonia" 
+                    className="imagenPremio hover:opacity-90 transition-opacity rounded-lg"
+                    width={400} // Podés ajustar el tamaño según prefieras
+                    height={300}
+                  />
+                </a>
               </div>
             </div>
           </div>

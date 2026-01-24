@@ -19,26 +19,40 @@ export default function Nosotros() {
             </p>
           ))}
           
-          {/* Enlaces a partners */}
-          <p className="text-lg leading-relaxed">
-            Se consolidó como una organización que tiene el apoyo institucional de la{" "}
-            {about.partners.map((partner, index) => (
-              <span key={index}>
-                <a
-                  href={partner.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-customCyan2 font-semibold hover:text-cyan-600 transition-colors duration-300 underline decoration-customCyan2 hover:decoration-cyan-600 decoration-2 underline-offset-4"
-                >
-                  {partner.fullName || partner.name}
-                </a>
-                {index < about.partners.length - 1 && ", "}
-                {index === about.partners.length - 2 && " y de "}
-              </span>
-            ))}
-            .{" "}
-            <span className="font-bold text-gray-900">{about.impact}</span>
-          </p>
+          <p className="text-lg leading-relaxed mt-6">
+              Se consolidó como una organización que tiene el apoyo institucional de la{" "}
+              {/* Link a FECIC */}
+              <a 
+                href={about.partners[0].url} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-customCyan2 font-semibold hover:text-cyan-600 underline decoration-2 underline-offset-4"
+              >
+                {about.partners[0].fullName}
+              </a>, y que ha sido seleccionada por{" "}
+              
+              {/* Link a HELP ARGENTINA */}
+              <a 
+                href={about.partners[1].url} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-customCyan2 font-semibold hover:text-cyan-600 underline decoration-2 underline-offset-4"
+              >
+                {about.partners[1].name}
+              </a>{" "}
+              
+              para poder recibir fondos desde el exterior, y es miembro de{" "}
+              
+              {/* Link a POTENCIAR SOLIDARIO */}
+              <a 
+                href={about.partners[2].url} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-customCyan2 font-semibold hover:text-cyan-600 underline decoration-2 underline-offset-4"
+              >
+                {about.partners[2].name}
+              </a>. Ha impactado en más de 24.000 niños, adolescentes y jóvenes de todo el país.
+            </p>
           
           {/* Programas */}
           <div className="mt-12 space-y-8">
