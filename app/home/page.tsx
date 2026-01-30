@@ -1,5 +1,6 @@
 import Nosotros from "@/components/Nosotros/Nosotros";
-import Carrusel from "../../components/Carrusel/Carrusel"
+import Carrusel from "../../components/Carrusel/Carrusel";
+import Contactos from "@/components/Contactos/Contactos";
 
 export default function HomePage() {
   return (
@@ -7,7 +8,8 @@ export default function HomePage() {
       <div className="w-full h-auto overflow-x-hidden">
         <Carrusel />
       </div>
-      <Nosotros/>
+      <Nosotros />
+      <Contactos />
     </div>
   );
 }
