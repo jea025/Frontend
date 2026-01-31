@@ -1,24 +1,17 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+
 export async function POST(request: Request) {
-  // Estos logs nos van a decir qué ve el servidor realmente
-  console.log("DEBUG URL:", process.env.NEXT_PUBLIC_SUPABASE_URL ? "Existe" : "FALTA");
-  console.log("DEBUG KEY:", process.env.SUPABASE_SERVICE_ROLE_KEY ? "Existe" : "FALTA");
-
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-
   try {
     if (!supabaseUrl || !supabaseServiceKey) {
-      // Agregamos más info al error para saber cuál falta
-      const falta = !supabaseUrl ? "URL" : "KEY";
       return NextResponse.json(
-        { error: `Configuración de Supabase faltante: Falta la ${falta}` },
+        { error: "Configuración de Supabase faltante" },
         { status: 500 }
       );
     }
-    // ... resto del código
 
     const body = await request.json();
     const {
@@ -59,15 +52,10 @@ export async function POST(request: Request) {
     }
 
     return NextResponse.json({ success: true });
-  } catch (e: any) {
-    // ESTO VA A GRITAR EN TU TERMINAL
-    console.error("--- ERROR DETECTADO EN API/CONTACT ---");
-    console.error("Mensaje:", e.message);
-    console.error("Stack:", e.stack);
-    console.error("---------------------------------------");
-    
+  } catch (e) {
+    console.error("Contact API error:", e);
     return NextResponse.json(
-      { error: "Error interno", detalle: e.message },
+      { error: "Error al procesar el mensaje" },
       { status: 500 }
     );
   }
