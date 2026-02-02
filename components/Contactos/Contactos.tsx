@@ -15,7 +15,6 @@ type FormState = {
 const TIPOS_CONSULTA = [
   "Consulta general",
   "Prensa / Medios",
-  "Colaboración o voluntariado",
   "Información sobre programas",
   "Otro",
 ];

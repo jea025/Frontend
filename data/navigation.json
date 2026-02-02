@@ -15,6 +15,11 @@
         "id": "galeria",
         "label": "GALERÍA",
         "href": "/gallery"
+      },
+      {
+        "id": "contacto",
+        "label": "CONTACTO",
+        "href": "/contacto"
       }
     ],
     "logo": {
