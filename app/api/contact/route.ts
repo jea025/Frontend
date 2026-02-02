@@ -1,12 +1,19 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
-
 export async function POST(request: Request) {
+  // Leer variables dentro del handler para asegurar que estén disponibles en runtime
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
   try {
+    // Debug logging para verificar variables en Vercel
+    console.log("Checking Supabase config...");
+    console.log("NEXT_PUBLIC_SUPABASE_URL exists:", !!supabaseUrl);
+    console.log("SUPABASE_SERVICE_ROLE_KEY exists:", !!supabaseServiceKey);
+    
     if (!supabaseUrl || !supabaseServiceKey) {
+      console.error("Missing Supabase configuration");
       return NextResponse.json(
         { error: "Configuración de Supabase faltante" },
         { status: 500 }
