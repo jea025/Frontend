@@ -7,8 +7,8 @@ import { StaticImageData } from "next/image";
 import { FaBroadcastTower, FaYoutube } from "react-icons/fa";
 
 // CONFIGURACIÓN DE VACACIONES
-const FECHA_REGRESO = "el jueves 19 de febrero de 20 a 21 hs"; // Texto que verá la gente
-const FECHA_LIMITE = new Date("2026-02-19"); // Fecha para que el cartel desaparezca solo
+const FECHA_REGRESO = "el jueves 5 de marzo de 20 a 21 hs"; // Texto que verá la gente
+const FECHA_LIMITE = new Date("2026-03-05"); // Fecha para que el cartel desaparezca solo
 
 // Importar imágenes
 import car1 from "../../public/car1.jpeg";
@@ -21,7 +21,15 @@ const imageMap: Record<string, StaticImageData> = {
   "/car3.jpeg": car3,
 };
 
-export default function ControlledCarousel() {
+interface CarruselProps {
+  foto_principal?: string;
+  titulo_web?: string;
+  carrusel_titulo_1?: string;
+  carrusel_titulo_2?: string;
+  carrusel_titulo_3?: string;
+}
+
+export default function ControlledCarousel({ foto_principal, titulo_web, carrusel_titulo_1, carrusel_titulo_2, carrusel_titulo_3 }: CarruselProps) {
   const [index, setIndex] = useState<number>(0);
 
   // Lógica automática: si hoy es antes de la fecha límite, estamos en vacaciones
@@ -53,7 +61,10 @@ export default function ControlledCarousel() {
               </p>
 
               <h2 className="text-xl md:text-4xl font-extrabold leading-tight mb-3">
-                {slide.title}
+                {slide.id === 1 && carrusel_titulo_1 ? carrusel_titulo_1 :
+                 slide.id === 2 && carrusel_titulo_2 ? carrusel_titulo_2 :
+                 slide.id === 3 && carrusel_titulo_3 ? carrusel_titulo_3 :
+                 titulo_web || slide.title}
               </h2>
 
               {slide.subtitle && (

@@ -1,7 +1,16 @@
 import Cards from "./Cards";
 import aboutData from "@/data/about.json";
 
-export default function Nosotros() {
+interface NosotrosProps {
+  descripcion_larga?: string;
+  mision_texto?: string;
+  vision_texto?: string;
+  programas_list?: string;
+  conocenos_list?: string;
+  prensa_list?: string;
+}
+
+export default function Nosotros({ descripcion_larga, mision_texto, vision_texto, programas_list, conocenos_list, prensa_list }: NosotrosProps) {
   const { about, radio, video } = aboutData;
 
   return (
@@ -13,11 +22,17 @@ export default function Nosotros() {
         </h2>
         
         <div className="prose prose-lg max-w-none text-gray-700 leading-relaxed space-y-6">
-          {about.description.map((paragraph, index) => (
-            <p key={index} className="text-lg leading-relaxed">
-              {paragraph}
+          {descripcion_larga ? (
+            <p className="text-lg leading-relaxed whitespace-pre-line">
+              {descripcion_larga}
             </p>
-          ))}
+          ) : (
+            about.description.map((paragraph, index) => (
+              <p key={index} className="text-lg leading-relaxed whitespace-pre-line">
+                {paragraph}
+              </p>
+            ))
+          )}
           
           <p className="text-lg leading-relaxed mt-6">
               Se consolidó como una organización que tiene el apoyo institucional de la{" "}
@@ -56,16 +71,45 @@ export default function Nosotros() {
           
           {/* Programas */}
           <div className="mt-12 space-y-8">
-            {about.programs.map((program) => (
-              <div key={program.id} className="bg-gradient-to-r from-cyan-50 to-transparent p-6 rounded-lg border-l-4 border-customCyan2">
-                <h3 className="font-bold text-xl text-gray-900 mb-3">
-                  Programa &quot;{program.name}&quot;
-                </h3>
-                <p className="text-lg leading-relaxed text-gray-700">
-                  {program.description}
-                </p>
-              </div>
-            ))}
+            {programas_list ? (
+              (() => {
+                try {
+                  const programas = JSON.parse(programas_list)
+                  return programas.map((program: any) => (
+                    <div key={program.id} className="bg-gradient-to-r from-cyan-50 to-transparent p-6 rounded-lg border-l-4 border-customCyan2">
+                      <h3 className="font-bold text-xl text-gray-900 mb-3">
+                        Programa &quot;{program.titulo}&quot;
+                      </h3>
+                      <p className="text-lg leading-relaxed text-gray-700 whitespace-pre-line">
+                        {program.descripcion}
+                      </p>
+                    </div>
+                  ))
+                } catch {
+                  return about.programs.map((program) => (
+                    <div key={program.id} className="bg-gradient-to-r from-cyan-50 to-transparent p-6 rounded-lg border-l-4 border-customCyan2">
+                      <h3 className="font-bold text-xl text-gray-900 mb-3">
+                        Programa &quot;{program.name}&quot;
+                      </h3>
+                      <p className="text-lg leading-relaxed text-gray-700">
+                        {program.description}
+                      </p>
+                    </div>
+                  ))
+                }
+              })()
+            ) : (
+              about.programs.map((program) => (
+                <div key={program.id} className="bg-gradient-to-r from-cyan-50 to-transparent p-6 rounded-lg border-l-4 border-customCyan2">
+                  <h3 className="font-bold text-xl text-gray-900 mb-3">
+                    Programa &quot;{program.name}&quot;
+                  </h3>
+                  <p className="text-lg leading-relaxed text-gray-700">
+                    {program.description}
+                  </p>
+                </div>
+              ))
+            )}
           </div>
         </div>
       </div>
@@ -88,7 +132,10 @@ export default function Nosotros() {
         </div>
       </div>
 
-      <Cards />
+      <Cards 
+        mision_texto={mision_texto}
+        vision_texto={vision_texto}
+      />
 
       <div className="w-full h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent my-16"></div>
 

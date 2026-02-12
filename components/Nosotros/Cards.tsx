@@ -1,7 +1,12 @@
 import "./Cards.css";
 import missionVisionData from "@/data/mission-vision.json";
 
-export default function Cards() {
+interface CardsProps {
+  mision_texto?: string;
+  vision_texto?: string;
+}
+
+export default function Cards({ mision_texto, vision_texto }: CardsProps) {
   const { mission, vision } = missionVisionData;
 
   return (
@@ -15,7 +20,7 @@ export default function Cards() {
             </div>
             <div className="flip-card-back">
               <h2>{mission.title}</h2>
-              <p>{mission.description}</p>
+              <p className="whitespace-pre-line">{mision_texto || mission.description}</p>
             </div>
           </div>
         </div>
@@ -28,7 +33,7 @@ export default function Cards() {
             </div>
             <div className="flip-card-back">
               <h2>{vision.title}</h2>
-              <p>{vision.description}</p>
+              <p className="whitespace-pre-line">{vision_texto || vision.description}</p>
             </div>
           </div>
         </div>
