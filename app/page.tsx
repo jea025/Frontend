@@ -17,13 +17,6 @@ async function getConfig(): Promise<ConfigData> {
       'foto_principal',
       'mision_texto',
       'vision_texto',
-      'carrusel_titulo_1',
-      'carrusel_titulo_2',
-      'carrusel_titulo_3',
-      'programas_list',
-      'conocenos_list',
-      'prensa_list',
-      'logros_list',
       'contacto_email',
       'contacto_telefono',
       'direccion',
@@ -118,14 +111,14 @@ export default async function Main() {
             <div className="bg-white p-8 rounded-lg shadow-lg">
               <h3 className="text-2xl font-semibold text-gray-900 mb-4">Misión</h3>
               <p className="text-gray-600 leading-relaxed">
-                {config.mision || 'Nuestra misión es empoderar a los jóvenes mediante programas educativos y de desarrollo comunitario.'}
+                {config.mision_texto || 'Nuestra misión es empoderar a los jóvenes mediante programas educativos y de desarrollo comunitario.'}
               </p>
             </div>
             
             <div className="bg-white p-8 rounded-lg shadow-lg">
               <h3 className="text-2xl font-semibold text-gray-900 mb-4">Visión</h3>
               <p className="text-gray-600 leading-relaxed">
-                {config.vision || 'Ser la organización líder en el desarrollo juvenil de la región.'}
+                {config.vision_texto || 'Ser la organización líder en el desarrollo juvenil de la región.'}
               </p>
             </div>
           </div>
