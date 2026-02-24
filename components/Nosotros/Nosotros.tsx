@@ -4,49 +4,31 @@ import Cards from "./Cards";
 
 import React, { useState } from 'react';
 // Componente individual para el bloque expandible del programa
-const ProgramBlock = ({title, shortDescription, fullDescription, isExpanded, id, onToggle }) => {
-  
-  // La función para alternar simplemente llama a la función proporcionada por el padre
-  const handleToggle = () => {
-    onToggle(id);
-  };
+const ProgramBlock = ({title, shortDescription, fullDescription, isExpanded, id, onMouseEnter, onMouseLeave }) => {
   
   return (
-    <div className="w-full bg-white p-6 rounded-xl shadow-lg border border-gray-100 mb-6 transition-all duration-300">
+    <div 
+      className="w-full bg-white p-6 rounded-xl shadow-lg border border-gray-100 mb-6 transition-all duration-500 ease-in-out transform hover:shadow-2xl"
+      onMouseEnter={() => onMouseEnter(id)}
+      onMouseLeave={() => onMouseLeave()}
+    >
       <h3 className="text-2xl font-bold text-gray-800 mb-2">{title}</h3>
       
       {/* RENDERIZADO CONDICIONAL BASADO EN EL ESTADO (isExpanded) */}
       {!isExpanded ? (
-        // VISTA COLAPSADA: Texto y Botón en la misma línea (flex) para ajuste perfecto
-        <div className="flex items-end justify-between gap-4">
-          {/* El texto abreviado ocupa el espacio disponible y tiene '...' al final */}
-          <p className="text-gray-600 mb-0 flex-grow">
+        // VISTA COLAPSADA: Solo texto abreviado
+        <div className="transition-all duration-500 ease-in-out">
+          <p className="text-gray-600 mb-0">
             {shortDescription}...
           </p>
-          {/* Botón Ver más */}
-          <button 
-            onClick={handleToggle}
-            className="flex-shrink-0 text-white font-semibold py-2 px-4 rounded-full transition duration-300 ease-in-out transform hover:scale-105 shadow-md"
-            style={{ backgroundColor: '#00ADB5' }}
-          >
-            Ver más
-          </button>
         </div>
       ) : (
-        // VISTA EXPANDIDA: Texto completo (bloque) y Botón en su propia línea
-        <>
-          <p className="text-gray-700 mb-4 whitespace-pre-line transition-all duration-500 ease-in-out">
+        // VISTA EXPANDIDA: Texto completo
+        <div className="transition-all duration-500 ease-in-out">
+          <p className="text-gray-700 mb-0 whitespace-pre-line">
             {fullDescription}
           </p>
-          {/* Botón Ver menos */}
-          <button 
-            onClick={handleToggle}
-            className="text-white font-semibold py-2 px-4 rounded-full transition duration-300 ease-in-out transform hover:scale-105 shadow-md"
-            style={{ backgroundColor: '#FF4D4D' }}
-          >
-            Ver menos
-          </button>
-        </>
+        </div>
       )}
     </div>
   );
@@ -54,14 +36,17 @@ const ProgramBlock = ({title, shortDescription, fullDescription, isExpanded, id,
 
 export default function Nosotros() {
 
-    // NUEVO ESTADO: openProgramId guarda el ID (índice) del programa que está abierto. 
-  // Si es null, ninguno está abierto.
-  const [openProgramId, setOpenProgramId] = useState(null);
+  // Estado que guarda el ID del programa sobre el cual está el mouse
+  const [hoveredProgramId, setHoveredProgramId] = useState(null);
 
-  // NUEVA FUNCIÓN: Maneja el click. Si el ID que se clica ya está abierto, lo cierra (null). 
-  // Si es un ID diferente, lo abre. Esto crea el efecto acordeón.
-  const handleProgramToggle = (id) => {
-    setOpenProgramId(prevId => (prevId === id ? null : id));
+  // Función que se ejecuta cuando el mouse entra en un bloque
+  const handleMouseEnter = (id) => {
+    setHoveredProgramId(id);
+  };
+
+  // Función que se ejecuta cuando el mouse sale de un bloque
+  const handleMouseLeave = () => {
+    setHoveredProgramId(null);
   };
   // Datos para los nuevos bloques expandibles (Programas)
   const programsData = [
@@ -99,7 +84,7 @@ export default function Nosotros() {
           <span className="text-customCyan2">|</span> Acerca de nosotros
         </h2>
         <p className="text-xl">
-          <span className="font-bold">Jóvenes en Acción</span> nació en 1997 como un programa de radio en Radio Cultura creado por la Lic. Carmen Sicardi, fundadora y directora del proyecto. Su objetivo fue crear un espacion donde los adolescentes pudieran expresar con libertad, responsabilidad y compromiso su sentir y pensar.  
+          <span className="font-bold">Jóvenes en Acción</span> nació en 1997 como un programa de radio en Radio Cultura creado por la Lic. Carmen Sicardi, fundadora y directora del proyecto. Su objetivo fue crear un espacio donde los adolescentes pudieran expresar con libertad, responsabilidad y compromiso su sentir y pensar.  
           <br />
           Alumnos secundarios a cargo de la producción y conducción, abordan temas que despiertan su interés o generan preocupación en la búsqueda de respuestas a sus inquietudes supervisados en sus colegios por la Lic. Sicardi. 
           Así, se les brinda un espacio reflexivo en un medio de comunicación, promueve el trabajo en equipo y el desarrollo de habilidades socioemocionales. Hasta la fecha participaron 60 colegios de CABA y GBA.
@@ -156,12 +141,13 @@ export default function Nosotros() {
         {programsData.map((program, index) => (
           <ProgramBlock 
             key={index}
-            id={index} // Pasamos el índice como ID
+            id={index}
             title={program.title}
             shortDescription={program.short}
             fullDescription={program.full}
-            isExpanded={openProgramId === index} // Verifica si este es el programa abierto
-            onToggle={handleProgramToggle} // Pasa la función para manejar el estado
+            isExpanded={hoveredProgramId === index} // Se expande si el mouse está sobre este bloque
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
           />
         ))}
       </div>

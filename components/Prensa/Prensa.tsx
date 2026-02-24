@@ -198,8 +198,7 @@ export default function Prensa() {
               <div className="premioContenido">
                 <h3 className="premioTitulo">Premio Santa Clara de Asís (2001)</h3>
                 <p className="premioDescripcion">
-                  📍 Otorgado por la Liga de Madres de Familia<br />
-                  📸 Incluye fotos del evento<br />
+                  📍 Otorgado por la Liga de Madres de Familia<br />                  
                   Reconocimiento a Jóvenes en Acción por su aporte a la comunicación con valores intelectuales y morales a través de medios de comunicación.
                 </p>
               </div>
