@@ -1,10 +1,11 @@
 "use client";
 import Carousel from "react-bootstrap/Carousel";
 import ExampleCarouselImage from "./ExampleCarouselImage";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import carouselData from "@/data/carousel.json";
 import { StaticImageData } from "next/image";
 import { FaBroadcastTower, FaYoutube } from "react-icons/fa";
+import { createClient } from '@/utils/supabase/client';
 
 // CONFIGURACIÓN DE VACACIONES
 const FECHA_REGRESO = "el jueves 5 de marzo de 20 a 21 hs"; // Texto que verá la gente
@@ -31,14 +32,64 @@ interface CarruselProps {
 
 export default function ControlledCarousel({ foto_principal, titulo_web, carrusel_titulo_1, carrusel_titulo_2, carrusel_titulo_3 }: CarruselProps) {
   const [index, setIndex] = useState<number>(0);
+  const [radioData, setRadioData] = useState({ dia: '', mes: '' });
 
-  // Lógica automática: si hoy es antes de la fecha límite, estamos en vacaciones
-  const hoy = new Date();
-  const esVacaciones = hoy < FECHA_LIMITE;
+  // Obtener datos de radio dinámicamente
+  useEffect(() => {
+    async function fetchRadioData() {
+      try {
+        const supabase = createClient()
+        
+        const { data: diaData } = await supabase
+          .from('configuracion')
+          .select('valor')
+          .eq('clave', 'radio_dia')
+          .single()
+
+        const { data: mesData } = await supabase
+          .from('configuracion')
+          .select('valor')
+          .eq('clave', 'radio_mes')
+          .single()
+
+        setRadioData({
+          dia: diaData?.valor || '',
+          mes: mesData?.valor || ''
+        })
+      } catch (error) {
+        console.error('❌ Error fetching radio data:', error)
+      }
+    }
+
+    fetchRadioData()
+  }, [])
+
+  // Función para generar el mensaje dinámico
+  const getRadioMessage = () => {
+    if (!radioData.dia || !radioData.mes) {
+      return 'Todos los jueves por radio cultura de 20 a 21 hs'
+    }
+
+    const currentDate = new Date()
+    const currentYear = currentDate.getFullYear()
+    const targetDate = new Date(`${radioData.mes} ${radioData.dia}, ${currentYear}`)
+    
+    // Si la fecha actual es anterior a la ingresada
+    if (currentDate < targetDate) {
+      return `✨ Retomamos la programación el jueves ${radioData.dia} de ${radioData.mes} de 20 a 21 hs`
+    }
+    
+    // Si la fecha ya pasó o es el mismo día
+    return 'Todos los jueves por radio cultura de 20 a 21 hs'
+  }
 
   const handleSelect = (selectedIndex: number) => {
     setIndex(selectedIndex);
   };
+
+  // Lógica automática: si hoy es antes de la fecha límite, estamos en vacaciones
+  const hoy = new Date();
+  const esVacaciones = hoy < FECHA_LIMITE;
 
   const slides = carouselData.hero.slides;
 
@@ -69,10 +120,10 @@ export default function ControlledCarousel({ foto_principal, titulo_web, carruse
 
               {slide.subtitle && (
                 <div className="mb-4">
-                  {/* Si es el slide de la radio (ID 1) y estamos en vacaciones, cambia el texto */}
-                  {slide.id === 1 && esVacaciones ? (
+                  {/* Si es el slide de la Radio (ID 1), usa el mensaje dinámico */}
+                  {slide.id === 1 ? (
                     <p className="text-yellow-400 bg-yellow-400/10 border border-yellow-400/30 px-4 py-2 rounded-lg inline-block text-sm md:text-lg font-bold animate-pulse">
-                      ✨ Retomamos la programación {FECHA_REGRESO}
+                      {getRadioMessage()}
                     </p>
                   ) : (
                     <p className="text-slate-300 text-sm md:text-lg font-light">

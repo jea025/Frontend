@@ -4,119 +4,15 @@ import afiche from '../../public/afiche.jpg';
 import santaClaraImg from '../../public/Santa Clara Premio.jpg';
 import embajadaEEUUImg from '../../public/Embajada EEUU.jpg';
 import santaClaraAlumnosImg from "../../public/Foto-Alumnos-Santa-Clara-Asis.jpeg";
+import LogrosCombinados from './LogrosCombinados';
+import PrensaDinamica from './PrensaDinamica';
 // La estatuilla la usaremos directamente por ruta ya que es para un link
 
 export default function Prensa() {
   return (
     <div className="prensaContainer">
-      {/* PRIMER BLOQUE - LOGROS E IMPACTO */}
-      <div className="logrosSection">
-        <h1 className="texto tituloH1">LOGROS E IMPACTO</h1>
-        
-        <div className="logrosGrid">
-          <div className="logroItem">
-            <div className="numeroDestacado">28</div>
-            <div className="textoLogro">
-              <strong>años</strong><br />
-              trayectoria como Programa Radial en Radio Cultura desde sus inicios.
-            </div>
-          </div>
-
-          <div className="logroItem">
-            <div className="numeroDestacado">24.200</div>
-            <div className="textoLogro">
-              <strong>adolescentes y jóvenes</strong><br />
-              participaron de 18 provincias y distrito federal
-            </div>
-          </div>
-
-          <div className="logroItem">
-            <div className="numeroDestacado">60</div>
-            <div className="textoLogro">
-              <strong>Colegios</strong><br />
-              públicos, privados y de distintas confesiones religiosas participaron con sus alumnos secundarios teniendo a cargo la producción y conducción de un espacio.<br />
-              <a href="https://www.youtube.com/watch?v=cDfEJe0lCMg" target="_blank" rel="noopener noreferrer" className="linkVideo">Ver video</a>
-            </div>
-          </div>
-
-          <div className="logroItem">
-            <div className="numeroDestacado">20</div>
-            <div className="textoLogro">
-              <strong>Universidades</strong><br />
-              públicas y privadas de distintas provincias de la Argentina participan por medio de sus alumnos en el programa radial y en los distintos proyectos que realizamos.<br />
-              <a href="https://www.youtube.com/watch?v=1XlorMImfRs" target="_blank" rel="noopener noreferrer" className="linkVideo">Ver video</a>
-            </div>
-          </div>
-
-          <div className="logroItem">
-            <div className="numeroDestacado">50</div>
-            <div className="textoLogro">
-              <strong>ONGs</strong><br />
-              dedicadas a la educación, la inclusión laboral, la discapacidad, la inclusión social, el emprendedorismo, la oferta de capacitaciones son aliadas nuestras.
-            </div>
-          </div>
-
-          <div className="logroItem">
-            <div className="numeroDestacado">3</div>
-            <div className="textoLogro">
-              <strong>Automóviles</strong><br />
-              último modelo, donamos a Escuelas Técnicas de Salta, Mendoza y San Miguel del Monte (Pcia. de Bs. As.) en alianza con GM, Citroën y Peugeot.
-            </div>
-          </div>
-
-          <div className="logroItem">
-            <div className="numeroDestacado">1.200</div>
-            <div className="textoLogro">
-              <strong>Jóvenes</strong><br />
-              participaron en las Salidas Integradoras e Inclusivas (Cines Debate, Salidas al Teatro, Museos, Conciertos, Eventos solidarios, académicos, para el empleo, etc) con alumnos de 5to año del secundario, estudiantes universitarios y jóvenes profesionales de distintas realidades socioeconómicas, en forma gratuita gracias al apoyo de empresas.
-            </div>
-          </div>
-
-          <div className="logroItem">
-            <div className="numeroDestacado">15</div>
-            <div className="textoLogro">
-              <strong>Capacitaciones</strong><br />
-              en Oratoria y Comunicación Corporal<br />
-              <a href="https://www.youtube.com/watch?v=iK2jV5y_pyc" target="_blank" rel="noopener noreferrer" className="linkVideo">Ver video</a>
-            </div>
-          </div>
-
-          <div className="logroItem">
-            <div className="numeroDestacado">2.200</div>
-            <div className="textoLogro">
-              <strong>Niños y niñas</strong><br />
-              que nunca fueron al cine, participaron en las Funciones Solidarias de Cine Debate de Metegol (desde los valores con el Equipo que hizo la película) gracias a J. J. Campanella y empresas.<br />
-              <a href="https://www.youtube.com/watch?v=wOeZ9pgnWAU" target="_blank" rel="noopener noreferrer" className="linkVideo">Ver video</a>
-            </div>
-          </div>
-
-          <div className="logroItem">
-            <div className="numeroDestacado">10</div>
-            <div className="textoLogro">
-              <strong>Encuentros Nacionales</strong><br />
-              de Jóvenes Líderes, participaron 100 jóvenes que son primeros estudiantes universitarios de sus familias, de 16 provincias de Argentina con el apoyo del Departamento de Estado de EEUU, su embajada en Argentina, la Fundación Konrad Adenauer y en alianza con empresas y ONGs<br />
-              <a href="https://www.youtube.com/watch?v=DaiK9izexZo" target="_blank" rel="noopener noreferrer" className="linkVideo">Ver video</a>
-            </div>
-          </div>
-
-          <div className="logroItem">
-            <div className="numeroDestacado">150</div>
-            <div className="textoLogro">
-              <strong>Plantación de árboles</strong><br />
-              frutales en Escuelas y ONGs de distintos rincones de Argentina, liderados por 25 jóvenes líderes (que son los primeros universitarios de sus familias) para inspirar a alumnos secundarios. Ya se plantaron 57 en La Pampa, en Florencio Varela, y San Miguel, Pcia. De Bs. As. y Misiones.
-            </div>
-          </div>
-
-          <div className="logroItem">
-            <div className="numeroDestacado">150</div>
-            <div className="textoLogro">
-              <strong>Niños y niñas</strong><br />
-              que viven en Hogares, por causas de abandono familiar, se les ha festejado su Cumpleaños con los voluntarios de Jóvenes en Acción desde 2022<br />
-              <a href="https://www.instagram.com/reel/C7kkPX1v8dr" target="_blank" rel="noopener noreferrer" className="linkVideo">Ver video</a>
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* PRIMER BLOQUE - LOGROS E IMPACTO (AHORA DINÁMICOS + ESTÁTICOS) */}
+      <LogrosCombinados />
 
       <hr className="separadorSeccion" />
 
@@ -140,6 +36,10 @@ export default function Prensa() {
             <div className="iconoRevista">📖</div>
           </div>
           
+          {/* Artículos Dinámicos del Admin */}
+          <PrensaDinamica />
+          
+          {/* Artículos Estáticos Existentes */}
           <div className="articulosLista">
             <div className="articuloItem">
               <a href="https://aica.org/noticia-jovenes-en-accion-celebro-25-anos-en-el-desarrollo-de-valores-para-brindar-oportunidades" target="_blank" rel="noopener noreferrer" className="enlaceArticulo">
@@ -167,14 +67,14 @@ export default function Prensa() {
               <span className="fechaArticulo">2 de marzo de 2013</span>
             </div>
 
-            <div className="articuloItem ">{/*destacado*/}
+            <div className="articuloItem ">
               <a href="https://www.lanacion.com.ar/comunidad/la-voz-de-los-invisibles-nid1361797" target="_blank" rel="noopener noreferrer" className="enlaceArticulo"> La voz de los invisibles - LA NACIÓN</a>
               <span className="fechaArticulo">2 de abril de 2011</span>
               {/*<span className="etiquetaDestacado">DESTACADO</span>*/}
             </div>
 
             <div className="articuloItem">
-              <a href="https://www.lanacion.com.ar/cultura/distinguen-los-valores-solidarios-en-medios-de-comunicacion-nid957951" target="_blank" rel="noopener noreferrer" className="enlaceArticulo"> Distinguen los valores solidarios en medios de comunicación </a>
+              <a href="https://www.lanacion.com.ar/espectaculos/distinguen-los-valores-solidarios-en-medios-de-comunicacion-nid957951" target="_blank" rel="noopener noreferrer" className="enlaceArticulo"> Distinguen los valores solidarios en medios de comunicación </a>
               <span className="fechaArticulo">31 de octubre de 2007</span>
             </div>
 

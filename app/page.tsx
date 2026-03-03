@@ -1,5 +1,11 @@
 import { createClient } from '@/utils/supabase/server'
 import { Metadata } from 'next'
+import RadioBanner from '@/components/RadioBanner'
+import LogrosDisplay from '@/components/LogrosDisplay'
+import PrensaDisplay from '@/components/PrensaDisplay'
+
+export const dynamic = 'force-dynamic'
+export const revalidate = 0 // Sin caché para pruebas
 
 interface ConfigData {
   [key: string]: string
@@ -8,15 +14,28 @@ interface ConfigData {
 async function getConfig(): Promise<ConfigData> {
   const supabase = await createClient()
   
+  console.log("🔍 Buscando claves en Supabase...")
+  
   const { data, error } = await supabase
     .from('configuracion')
     .select('clave, valor')
     .in('clave', [
       'titulo_web',
       'descripcion_larga', 
-      'foto_principal',
       'mision_texto',
       'vision_texto',
+      'carrusel_foto_1',
+      'carrusel_foto_2',
+      'carrusel_foto_3',
+      'carrusel_titulo_1',
+      'carrusel_titulo_2',
+      'carrusel_titulo_3',
+      'radio_dia',
+      'radio_mes',
+      'programas_list',
+      'conocenos_list',
+      'prensa_list',
+      'logros_list',
       'contacto_email',
       'contacto_telefono',
       'direccion',
@@ -26,16 +45,20 @@ async function getConfig(): Promise<ConfigData> {
     ])
 
   if (error) {
-    console.error('Error cargando configuración:', error)
+    console.error('❌ Error cargando configuración:', error)
     return {}
   }
+
+  console.log("📊 Datos recibidos de Supabase:", data)
 
   // Convert array to key-value object
   const config: ConfigData = {}
   data?.forEach(item => {
     config[item.clave] = item.valor
+    console.log(`✅ Clave ${item.clave}:`, item.valor)
   })
 
+  console.log("🎯 Config final:", config)
   return config
 }
 
@@ -48,10 +71,37 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-export const revalidate = 30 // Revalidar cada 30 segundos
-
 export default async function Main() {
-  const config = await getConfig()
+  console.log("Home page is loading...")
+  console.log(">>>> EL SERVIDOR ESTÁ VIVO <<<<")
+  
+  // Consulta TOTAL sin filtros - traer todo
+  const supabase = await createClient()
+  console.log("🔍 CONSULTA TOTAL - Buscando TODOS los datos en Supabase...")
+  
+  const { data, error } = await supabase
+    .from('configuracion')
+    .select('*') // Traer TODO sin filtros
+
+  if (error) {
+    console.error('❌ CONSULTA TOTAL - Error:', error)
+  } else {
+    console.log("📊 DATOS CRUDOS DE SUPABASE:", data)
+  }
+
+  // Mapeo seguro - crear objeto con TODAS las claves
+  const config: ConfigData = {}
+  data?.forEach(item => {
+    // Forzar creación de la clave sin importar si existe o no
+    config[item.clave] = item.valor
+    console.log(`✅ MAPEO SEGURO - ${item.clave}:`, item.valor)
+  })
+
+  console.log("🔥 DEBUG HOME - CONFIG FINAL COMPLETA:", config)
+  console.log("🔥 DEBUG HOME - logros_list existe?", !!config.logros_list)
+  console.log("🔥 DEBUG HOME - prensa_list existe?", !!config.prensa_list)
+  console.log("🔥 DEBUG HOME - radio_dia:", config.radio_dia)
+  console.log("🔥 DEBUG HOME - radio_mes:", config.radio_mes)
 
   return (
     <main className="min-h-screen">
@@ -84,17 +134,26 @@ export default async function Main() {
             <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">
               {config.descripcion_larga || 'Transformamos vidas a través de la educación y el desarrollo comunitario.'}
             </p>
-            
-            {config.foto_principal && (
-              <div className="mt-12">
-                <img 
-                  src={config.foto_principal} 
-                  alt="Imagen principal" 
-                  className="rounded-lg shadow-2xl mx-auto max-w-full h-auto"
-                />
-              </div>
-            )}
           </div>
+        </div>
+      </section>
+
+      {/* Radio Banner Section */}
+      <section className="py-12 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {(() => {
+            console.log("🔥 RENDERIZANDO RadioBanner con:", { 
+              dia: config.radio_dia, 
+              mes: config.radio_mes, 
+              titulo: config.carrusel_titulo_1 
+            })
+            return null
+          })()}
+          <RadioBanner
+            dia={config.radio_dia}
+            mes={config.radio_mes}
+            titulo={config.carrusel_titulo_1}
+          />
         </div>
       </section>
 
@@ -124,6 +183,34 @@ export default async function Main() {
           </div>
         </div>
       </section>
+
+      {/* Logros Section */}
+      {config.logros_list && (
+        <section className="py-20 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Logros e Impactos
+              </h2>
+            </div>
+            <LogrosDisplay logros_list={config.logros_list} />
+          </div>
+        </section>
+      )}
+
+      {/* Prensa Section */}
+      {config.prensa_list && (
+        <section className="py-20 bg-gray-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Prensa y Premios
+              </h2>
+            </div>
+            <PrensaDisplay prensa_list={config.prensa_list} />
+          </div>
+        </section>
+      )}
 
       {/* Contacto Section */}
       <section className="py-20 bg-white">

@@ -6,7 +6,7 @@ interface DynamicListProps {
   value: string
   onChange: (jsonValue: string) => void
   label: string
-  type: 'programas' | 'conocenos' | 'prensa'
+  type: 'programas' | 'conocenos' | 'prensa' | 'logros'
 }
 
 interface ProgramItem {
@@ -23,7 +23,16 @@ interface ConocenosItem {
 interface PrensaItem {
   id: string
   titulo: string
+  fecha: string
+  url: string
+}
+
+interface LogrosItem {
+  id: string
+  numero: string
+  etiqueta: string
   descripcion: string
+  link_texto: string
   url: string
 }
 
@@ -43,6 +52,8 @@ export default function DynamicList({ value, onChange, label, type }: DynamicLis
       case 'conocenos':
         return []
       case 'prensa':
+        return []
+      case 'logros':
         return []
       default:
         return []
@@ -64,7 +75,10 @@ export default function DynamicList({ value, onChange, label, type }: DynamicLis
         newItem = { id: Date.now().toString(), texto: '' }
         break
       case 'prensa':
-        newItem = { id: Date.now().toString(), titulo: '', descripcion: '', url: '' }
+        newItem = { id: Date.now().toString(), titulo: '', fecha: '', url: '' }
+        break
+      case 'logros':
+        newItem = { id: Date.now().toString(), numero: '', etiqueta: '', descripcion: '', link_texto: '', url: '' }
         break
       default:
         return
@@ -135,10 +149,79 @@ export default function DynamicList({ value, onChange, label, type }: DynamicLis
     </div>
   )
 
+  const renderLogrosItem = (item: LogrosItem) => (
+    <div key={item.id} className="border rounded-lg p-4 space-y-3 bg-gray-50">
+      <div className="flex justify-between items-center">
+        <h4 className="font-medium text-gray-900">Logro/Impacto</h4>
+        <button
+          type="button"
+          onClick={() => removeItem(item.id)}
+          className="text-red-600 hover:text-red-800 text-sm"
+        >
+          Eliminar
+        </button>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div>
+          <label className="block text-xs font-medium text-gray-600 mb-1">Número</label>
+          <input
+            type="text"
+            value={item.numero}
+            onChange={(e) => updateItem(item.id, 'numero', e.target.value)}
+            placeholder="Ej: 50"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <div>
+          <label className="block text-xs font-medium text-gray-600 mb-1">Etiqueta</label>
+          <input
+            type="text"
+            value={item.etiqueta}
+            onChange={(e) => updateItem(item.id, 'etiqueta', e.target.value)}
+            placeholder="Ej: Colegios"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+      </div>
+      <div>
+        <label className="block text-xs font-medium text-gray-600 mb-1">Descripción</label>
+        <textarea
+          value={item.descripcion}
+          onChange={(e) => updateItem(item.id, 'descripcion', e.target.value)}
+          placeholder="Ej: Alumnos alcanzados"
+          rows={2}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div>
+          <label className="block text-xs font-medium text-gray-600 mb-1">Texto del enlace (opcional)</label>
+          <input
+            type="text"
+            value={item.link_texto}
+            onChange={(e) => updateItem(item.id, 'link_texto', e.target.value)}
+            placeholder="Ej: Ver más"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <div>
+          <label className="block text-xs font-medium text-gray-600 mb-1">URL del enlace (opcional)</label>
+          <input
+            type="url"
+            value={item.url}
+            onChange={(e) => updateItem(item.id, 'url', e.target.value)}
+            placeholder="Ej: https://ejemplo.com"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+      </div>
+    </div>
+  )
+
   const renderPrensaItem = (item: PrensaItem) => (
     <div key={item.id} className="border rounded-lg p-4 space-y-3 bg-gray-50">
       <div className="flex justify-between items-center">
-        <h4 className="font-medium text-gray-900">Premio/Prensa</h4>
+        <h4 className="font-medium text-gray-900">Artículo de Prensa</h4>
         <button
           type="button"
           onClick={() => removeItem(item.id)}
@@ -151,21 +234,21 @@ export default function DynamicList({ value, onChange, label, type }: DynamicLis
         type="text"
         value={item.titulo}
         onChange={(e) => updateItem(item.id, 'titulo', e.target.value)}
-        placeholder="Título del artículo/premio"
+        placeholder="Título del artículo (Ej: 'Jóvenes en Acción celebró 25 años...')"
         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
-      <textarea
-        value={item.descripcion}
-        onChange={(e) => updateItem(item.id, 'descripcion', e.target.value)}
-        placeholder="Descripción del artículo/premio"
-        rows={3}
+      <input
+        type="text"
+        value={item.fecha}
+        onChange={(e) => updateItem(item.id, 'fecha', e.target.value)}
+        placeholder="Fecha del artículo (Ej: '17 de octubre de 2022')"
         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
       <input
         type="url"
         value={item.url}
         onChange={(e) => updateItem(item.id, 'url', e.target.value)}
-        placeholder="URL del hipervínculo"
+        placeholder="URL del artículo original"
         className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
     </div>
@@ -182,7 +265,7 @@ export default function DynamicList({ value, onChange, label, type }: DynamicLis
           onClick={addItem}
           className="px-3 py-1 bg-blue-600 text-white text-sm rounded-md hover:bg-blue-700"
         >
-          Agregar {type === 'programas' ? 'Programa' : type === 'conocenos' ? 'Elemento' : 'Premio/Prensa'}
+          Agregar {type === 'programas' ? 'Programa' : type === 'conocenos' ? 'Elemento' : type === 'logros' ? 'Logro/Impacto' : 'Premio/Prensa'}
         </button>
       </div>
       
@@ -195,6 +278,8 @@ export default function DynamicList({ value, onChange, label, type }: DynamicLis
               return renderConocenosItem(item as ConocenosItem)
             case 'prensa':
               return renderPrensaItem(item as PrensaItem)
+            case 'logros':
+              return renderLogrosItem(item as LogrosItem)
             default:
               return null
           }

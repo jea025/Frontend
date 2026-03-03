@@ -44,7 +44,7 @@
 .tituloH1 {
     font-size: 2.5rem;
     font-weight: bold;
-    color: #0891b2;
+    color: #3b82f6;
     text-align: center;
     margin: 40px 0 30px 0;
     text-transform: uppercase;
@@ -54,7 +54,7 @@
     margin-top: 60px;
     font-size: 2rem;
     font-weight: bold;
-    color: #0891b2;
+    color: #3b82f6;
     margin-bottom: 30px;
 }
 
@@ -82,7 +82,7 @@
     padding: 20px;
     background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
     border-radius: 15px;
-    border-left: 5px solid #0891b2;
+    border-left: 5px solid #3b82f6;
     box-shadow: 0 4px 15px rgba(8, 145, 178, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -95,7 +95,7 @@
 .numeroDestacado {
     font-size: 3rem;
     font-weight: bold;
-    color: #0891b2;
+    color: #3b82f6;
     min-width: 80px;
     text-align: center;
     line-height: 1;
@@ -109,19 +109,19 @@
 }
 
 .textoLogro strong {
-    color: #0891b2;
+    color: #3b82f6;
     font-weight: 600;
 }
 
 .linkVideo {
-    color: #0891b2;
+    color: #3b82f6;
     text-decoration: underline;
     font-weight: 500;
     transition: color 0.3s ease;
 }
 
 .linkVideo:hover {
-    color: #0e7490;
+    color: #1d4ed8;
 }
 
 /* ESTILOS PARA PRENSA Y PREMIOS */
@@ -136,7 +136,7 @@
 .separadorSeccion {
     border: none;
     height: 3px;
-    background: linear-gradient(90deg, #0891b2 0%, #06b6d4 50%, #0891b2 100%);
+    background: linear-gradient(90deg, #3b82f6 0%, #2563eb 50%, #3b82f6 100%);
     margin: 60px 3%;
     border-radius: 2px;
 }
@@ -145,12 +145,12 @@
 .articuloDestacadoPrincipal {
     margin: 30px 3% 40px 3%;
     padding: 35px;
-    background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(8, 145, 178, 0.3);
     position: relative;
     overflow: hidden;
-    border: 3px solid #0e7490;
+    border: 3px solid #1d4ed8;
 }
 
 .articuloDestacadoPrincipal::before {
@@ -250,7 +250,7 @@
 }
 
 .enlaceArticulo {
-    color: #0891b2;
+    color: #3b82f6;
     text-decoration: none;
     font-weight: 600;
     font-size: 1.1rem;
@@ -258,7 +258,7 @@
 }
 
 .enlaceArticulo:hover {
-    color: #0e7490;
+    color: #1d4ed8;
     text-decoration: underline;
 }
 
