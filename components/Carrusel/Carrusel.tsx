@@ -80,7 +80,7 @@ export default function ControlledCarousel({ foto_principal, titulo_web, carruse
     }
     
     // Si la fecha ya pasó o es el mismo día
-    return 'Todos los jueves por radio cultura de 20 a 21 hs'
+    return 'Todos los jueves por Radio Cultura de 20 a 21 hs'
   }
 
   const handleSelect = (selectedIndex: number) => {
