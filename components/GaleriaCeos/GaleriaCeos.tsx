@@ -32,7 +32,7 @@ const imagenesGaleriaCeos: ImagenGaleria[] = [
   {
     src: ceos1,
     alt: "Entrevista con CEOs y Emprendedores - Sesión 1",
-    titulo: "Entrevista con Victor Valle CEO de GOOGLE Argentina"
+    titulo: "Entrevista con Victor Valle ex CEO de GOOGLE Argentina"
   },
   {
     src: ceos2,
@@ -42,7 +42,7 @@ const imagenesGaleriaCeos: ImagenGaleria[] = [
   {
     src: ceos3,
     alt: "Programa Jóvenes en Acción - Entrevistas",
-    titulo: "Entrevista al equipo ganador del 3er puesto del Premio Banco Patagonia Innova del 2013"
+    titulo: "Entrevista al equipo ganador del 3er puesto del Premio Banco Patagonia Innova del 2023"
   }
 ];
 
@@ -50,12 +50,12 @@ const imagenesColegios: ImagenGaleria[] = [
   {
     src: colegios1,
     alt: "Alumnos secundarios en programa radial",
-    titulo: "Jóvenes Conductores"
+    titulo: "Jóvenes Conductores: Alumnos de Escuela Argentina Modelo"
   },
   {
     src: colegios2,
     alt: "Estudiantes en producción de radio",
-    titulo: "Experiencia Radiofónica"
+    titulo: "Experiencia Radiofónica: Alumnos Colegio San Miguel"
   }
 ];
 
@@ -81,7 +81,7 @@ const imagenesVoluntariado: ImagenGaleria[] = [
   {
     src: voluntariado1,
     alt: "Hogar",
-    titulo: "V H"
+    titulo: "Festejo del Día del Niño en Mc Donald's"
   },
   {
     src: voluntariado2,
@@ -210,14 +210,85 @@ export default function GaleriaCeos() {
             <span className="texto-especialistas">Especialistas</span>
           </h2>
           <p className="descripcion-texto">
-            Descubre los momentos más inspiradores de nuestro programa radial, donde jóvenes 
-            tienen la oportunidad única de entrevistar a líderes empresariales, emprendedores 
-            exitosos y especialistas de diversas áreas, creando un puente generacional lleno 
-            de aprendizaje y motivación.
+            Descubre los momentos más inspiradores de nuestro programa radial, donde jóvenes tienen la oportunidad única de entrevistar a líderes empresariales, emprendedores exitosos y especialistas de diversas áreas, creando un puente generacional lleno de aprendizaje y motivación.
           </p>
         </div>
 
-        {renderGaleria(imagenesGaleriaCeos, 'ceos', true)} 
+        {/* Victor Valle reel and CEO photos alongside first CEO photo */}
+        <div className="flex flex-col lg:flex-row gap-8 items-center justify-center w-full max-w-6xl mt-8 mx-auto">
+          <div className="w-full max-w-[280px] min-h-[200px] overflow-hidden rounded-[2.5rem] shadow-xl border-[6px] border-slate-100 bg-black">
+            <div className="relative w-full" style={{ height: '200px' }}>
+              <iframe
+                src="https://www.youtube.com/embed/xN0crvT6BfQ?start=0.001"
+                className="absolute top-0 left-0 border-0"
+                style={{ 
+                  width: '280px', 
+                  height: '200px',
+                  transform: 'scale(1)',
+                  transformOrigin: 'top left'
+                }}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                title="Victor Valle - Entrevista Jóvenes en Acción"
+              />
+            </div>
+            
+            <a 
+              href="https://www.instagram.com/reels/DB1iOFHvC9V/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-8 py-3 bg-slate-900 hover:bg-black rounded-xl text-white text-sm font-bold transition-all shadow-lg hover:shadow-xl active:scale-95"
+            >
+              <svg 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                stroke="currentColor" 
+                strokeWidth="2" 
+                className="w-5 h-5 text-pink-400"
+              >
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1-4 4 0 1 1m0 4.41c0 .34.024.536-.708a.5.5.5h1a.5.5 0 0 1-.5.5.5H7a.5.5 0 0 1-.5.5.5v1a.5.5 0 0 1 .5.5.5h1a.5.5 0 0 1 .5.5.5v-1a.5.5 0 0 1-.5.5.5H7a.5.5 0 0 1-.5.5.5z"></path>
+                <line x1="12" y1="1" x2="12" y2="16" stroke="currentColor" strokeWidth="2"></line>
+                <line x1="8" y1="17" x2="8" y2="21" stroke="currentColor" strokeWidth="2"></line>
+                <line x1="16" y1="17" x2="16" y2="21" stroke="currentColor" strokeWidth="2"></line>
+              </svg>
+              Ver Reel Victor Valle
+            </a>
+          </div>
+          
+          {/* All CEO photos in a row */}
+          {imagenesGaleriaCeos.map((imagen, index) => (
+            <div 
+              key={index} 
+              className="imagen-container w-full max-w-[280px] overflow-hidden rounded-[2.5rem] shadow-xl border-[6px] border-slate-100 bg-black"
+              onClick={() => abrirModal('ceos', index)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  abrirModal('ceos', index);
+                }
+              }}
+            >
+              <div className="imagen-wrapper">
+                <Image
+                  src={imagen.src}
+                  alt={imagen.alt}
+                  className="imagen-galeria"
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  priority={index === 0}
+                />
+                <div className="overlay">
+                  <div className="overlay-content">
+                    <h3 className="imagen-titulo">{imagen.titulo}</h3>
+                    <p className="click-para-ampliar">Toca para ampliar</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div> 
       </div>
 
       {/* Segunda sección - Alumnos Secundarios */}
@@ -233,7 +304,7 @@ export default function GaleriaCeos() {
         
         {renderGaleria(imagenesColegios, 'colegios')}
 
- {/* --- SECCIÓN: EVENTOS Y ESTUDIANTES (SIN RECTÁNGULO DE FONDO) --- */}
+        {/* --- SECCIÓN: EVENTOS Y ESTUDIANTES (SIN RECTÁNGULO DE FONDO) --- */}
         <div className="flex flex-col items-center justify-center mt-16 pb-20 px-4">
           
           {/* Título - Sin fondo, integrado al flujo */}
@@ -252,42 +323,47 @@ export default function GaleriaCeos() {
             <span className="text-slate-900 font-bold border-b-2 border-blue-200"> Francesca Simonotto</span> (alumna de Medicina de Barceló) representó a Jóvenes en Acción.
           </p>
 
-          {/* Contenedor del Video - Ahora con una sombra más suave para que no "explote" sobre el fondo */}
-          <div className="w-full max-w-[280px] overflow-hidden rounded-[2.5rem] shadow-xl border-[6px] border-slate-100 bg-black">
-            <video 
-              controls 
-              preload="metadata"
-              poster="/miniatura_video_barcelo.png"
-              className="w-full h-auto block"
-            >
-              <source src="/JEA_Fundacion_Barcelo.mp4#t=0.001" type="video/mp4" />
-              Tu navegador no soporta videos.
-            </video>
+          {/* Contenedor de Videos - Dos videos lado a lado */}
+          <div className="flex flex-col lg:flex-row gap-8 items-center justify-center w-full max-w-4xl">
+            {/* Video 1 - Barceló */}
+            <div className="w-full max-w-[280px] min-h-[200px] overflow-hidden rounded-[2.5rem] shadow-xl border-[6px] border-slate-100 bg-black">
+              <video 
+                controls 
+                preload="metadata"
+                poster="/miniatura_video_barcelo.png"
+                className="w-full h-auto block"
+              >
+                <source src="/JEA_Fundacion_Barcelo.mp4#t=0.001" type="video/mp4" />
+                Tu navegador no soporta videos.
+              </video>
+            </div>
           </div>
-          
-          {/* Botón de Instagram - Estilo minimalista */}
-          <a 
-            href="https://www.instagram.com/reel/DPT4ZUMDSDH/" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="mt-10 flex items-center gap-2 px-8 py-3 bg-slate-900 hover:bg-black rounded-xl text-white text-sm font-bold transition-all shadow-lg hover:shadow-xl active:scale-95"
-          >
-            <svg 
-              viewBox="0 0 24 24" 
-              fill="none" 
-              stroke="currentColor" 
-              strokeWidth="2" 
-              className="w-5 h-5 text-pink-400"
+
+          {/* Botones de Instagram - Estilo minimalista */}
+          <div className="flex flex-col sm:flex-row gap-4 items-center justify-center mt-10">
+            <a 
+              href="https://www.instagram.com/reel/DPT4ZUMDSDH/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-8 py-3 bg-slate-900 hover:bg-black rounded-xl text-white text-sm font-bold transition-all shadow-lg hover:shadow-xl active:scale-95"
             >
-              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-            </svg>
-            Ver Reel completo
-          </a>
-
+              <svg 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                stroke="currentColor" 
+                strokeWidth="2" 
+                className="w-5 h-5 text-pink-400"
+              >
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1-4 4 0 1 1m0 4.41c0 .34.024.536-.708a.5.5.5h1a.5.5 0 0 1-.5.5.5H7a.5.5 0 0 1-.5.5.5v1a.5.5 0 0 1 .5.5.5h1a.5.5 0 0 1 .5.5.5v-1a.5.5 0 0 1-.5.5.5H7a.5.5 0 0 1-.5.5.5z"></path>
+                <line x1="12" y1="1" x2="12" y2="16" stroke="currentColor" strokeWidth="2"></line>
+                <line x1="8" y1="17" x2="8" y2="21" stroke="currentColor" strokeWidth="2"></line>
+                <line x1="16" y1="17" x2="16" y2="21" stroke="currentColor" strokeWidth="2"></line>
+              </svg>
+              Ver Reel Fundación Barceló
+            </a>    
+          </div>      
         </div>
-
       </div>
 
       {/* Tercera sección - Forestación */}
@@ -322,60 +398,34 @@ export default function GaleriaCeos() {
       </div>
 
       {/* Modal para imagen ampliada */}
-      {imagenSeleccionada !== null && (() => {
-        const imagenesActuales = obtenerImagenesActuales();
-        const imagenActual = imagenesActuales[imagenSeleccionada.index];
-        
-        return (
-          <div 
-            className="modal-overlay" 
-            onClick={cerrarModal}
-            role="dialog"
-            aria-modal="true"
-          >
-            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-              <button 
-                className="boton-cerrar" 
-                onClick={cerrarModal}
-                aria-label="Cerrar modal"
-              >
-                ×
-              </button>
-              
-              <button 
-                className="boton-navegacion boton-anterior"
-                onClick={(e) => navegarImagen(e, 'anterior')}
-                aria-label="Imagen anterior"
-              >
-                ‹
-              </button>
-              <button 
-                className="boton-navegacion boton-siguiente"
-                onClick={(e) => navegarImagen(e, 'siguiente')}
-                aria-label="Imagen siguiente"
-              >
-                ›
-              </button>
-
-              <div className="imagen-modal-wrapper">
+      {imagenSeleccionada !== null && (
+        <div 
+          className="modal-overlay" 
+          onClick={cerrarModal}
+          role="dialog"
+          aria-modal="true"
+        >
+          <button className="boton-cerrar" onClick={cerrarModal}>
+            ×
+          </button>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="imagen-modal-wrapper">
+              <div className="imagen-modal">
                 <Image
-                  src={imagenActual.src}
-                  alt={imagenActual.alt}
+                  src={obtenerImagenesActuales()[imagenSeleccionada.index].src}
+                  alt={obtenerImagenesActuales()[imagenSeleccionada.index].alt}
                   className="imagen-modal"
                   fill
-                  sizes="90vw"
-                  priority
                 />
               </div>
-              
-              <div className="info-imagen">
-                <h3>{imagenActual.titulo}</h3>
-                <p>{imagenSeleccionada.index + 1} de {imagenesActuales.length}</p>
-              </div>
+            </div>
+            <div className="info-imagen">
+              <h3>{obtenerImagenesActuales()[imagenSeleccionada.index].titulo}</h3>
+              <p>{imagenSeleccionada.index + 1} de {obtenerImagenesActuales().length}</p>
             </div>
           </div>
-        );
-      })()}
+        </div>
+      )}
     </>
   );
 }

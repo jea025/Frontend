@@ -102,10 +102,12 @@ export default function ControlledCarousel({ foto_principal, titulo_web, carruse
               <ExampleCarouselImage 
                 img={imageMap[slide.image]} 
                 priority={idx === 0}
+                width={320}
+                height={240}
               />
             </div>
 
-            <div className="static md:absolute md:bottom-0 md:left-0 md:right-0 bg-slate-900 md:bg-black/50 text-white p-6 pb-20 md:p-12 md:pb-12 text-center backdrop-blur-sm transition-all min-h-[260px] md:min-h-[320px] md:max-h-[380px] flex flex-col justify-center">
+            <div className="static md:absolute md:bottom-0 md:left-0 md:right-0 bg-slate-900 md:bg-black/50 text-white p-6 pb-20 md:p-12 md:pb-12 text-center backdrop-blur-sm transition-all min-h-[320px] md:min-h-[320px] md:max-h-[380px] flex flex-col justify-center">
               
               <p className="text-blue-400 text-xs md:text-sm uppercase tracking-[0.2em] font-bold mb-2">
                 {slide.category}
@@ -127,13 +129,21 @@ export default function ControlledCarousel({ foto_principal, titulo_web, carruse
                     </p>
                   ) : (
                     <p className="text-slate-300 text-sm md:text-lg font-light">
-                      {slide.subtitle}
+                      {slide.id === 2 ? (
+                        <p className="text-slate-300 text-sm md:text-lg font-light">
+                          Participaron más de 1.500 jóvenes
+                        </p>
+                      ) : (
+                        <p className="text-yellow-400 bg-yellow-400/10 border border-yellow-400/30 px-4 py-2 rounded-lg inline-block text-sm md:text-lg font-bold animate-pulse">
+                          Todos los jueves por Radio Cultura de 20 a 21 hs
+                        </p>
+                      )}
                     </p>
                   )}
                 </div>
               )}
 
-              {slide.link && (
+              {slide.link && slide.id !== 1 && (
                 <div className="flex flex-col gap-3 mt-2 mb-4 items-center justify-center">
                   <a 
                     href={slide.link.url} 
@@ -155,6 +165,20 @@ export default function ControlledCarousel({ foto_principal, titulo_web, carruse
                       <span>{(slide as any).youtubeLink.text}</span>
                     </a>
                   )}
+                </div>
+              )}
+
+              {/* Radio links outside text container for better layout - only show for first photo */}
+              {slide.id === 1 && (
+                <div className="flex flex-col gap-3 mt-1 mb-8 items-center justify-center">
+                  <a href="www.fmradiocultura.com.ar/radio-cultura-en-vivo" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-blue-400 hover:text-white underline text-base md:text-lg break-all justify-center">
+                    <FaBroadcastTower className="text-base md:text-lg flex-shrink-0" />
+                    <span>www.fmradiocultura.com.ar/radio-cultura-en-vivo</span>
+                  </a>
+                  <a href="www.youtube.com/@radioculturaba" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-red-400 hover:text-white underline text-base md:text-lg break-all justify-center">
+                    <FaYoutube className="text-base md:text-lg flex-shrink-0" />
+                    <span>www.youtube.com/@radioculturaba</span>
+                  </a>
                 </div>
               )}
             </div>
@@ -200,9 +224,6 @@ export default function ControlledCarousel({ foto_principal, titulo_web, carruse
           padding: 0;
         }
         @media (max-width: 768px) {
-          .carousel-caption {
-            display: none !important;
-          }
           /* Ajuste para los puntitos del carrusel en móvil - más cerca del contenido */
           .carousel-indicators {
             bottom: 24px !important;

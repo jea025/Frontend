@@ -1,5 +1,7 @@
+"use client";
 import Cards from "./Cards";
 import aboutData from "@/data/about.json";
+import { useState, useRef } from "react";
 
 interface NosotrosProps {
   descripcion_larga?: string;
@@ -12,6 +14,40 @@ interface NosotrosProps {
 
 export default function Nosotros({ descripcion_larga, mision_texto, vision_texto, programas_list, conocenos_list, prensa_list }: NosotrosProps) {
   const { about, radio, video } = aboutData;
+  const [expandedPrograms, setExpandedPrograms] = useState<Set<number>>(new Set());
+  const timeoutRefs = useRef<{ [key: number]: NodeJS.Timeout }>({});
+
+  const handleMouseEnter = (id: number) => {
+    // Clear any existing timeout for this program
+    if (timeoutRefs.current[id]) {
+      clearTimeout(timeoutRefs.current[id]);
+    }
+    
+    // Set a new timeout to expand after 200ms
+    timeoutRefs.current[id] = setTimeout(() => {
+      setExpandedPrograms(prev => {
+        const newSet = new Set(prev);
+        newSet.add(id);
+        return newSet;
+      });
+    }, 200);
+  };
+
+  const handleMouseLeave = (id: number) => {
+    // Clear any existing timeout for this program
+    if (timeoutRefs.current[id]) {
+      clearTimeout(timeoutRefs.current[id]);
+    }
+    
+    // Set a new timeout to collapse after 300ms (slightly longer than expand)
+    timeoutRefs.current[id] = setTimeout(() => {
+      setExpandedPrograms(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(id);
+        return newSet;
+      });
+    }, 300);
+  };
 
   return (
     <div className="w-full h-auto">
@@ -76,37 +112,109 @@ export default function Nosotros({ descripcion_larga, mision_texto, vision_texto
                 try {
                   const programas = JSON.parse(programas_list)
                   return programas.map((program: any) => (
-                    <div key={program.id} className="bg-gradient-to-r from-cyan-50 to-transparent p-6 rounded-lg border-l-4 border-customCyan2">
-                      <h3 className="font-bold text-xl text-gray-900 mb-3">
-                        Programa &quot;{program.titulo}&quot;
-                      </h3>
-                      <p className="text-lg leading-relaxed text-gray-700 whitespace-pre-line">
-                        {program.descripcion}
-                      </p>
+                    <div 
+                      key={program.id} 
+                      className="bg-gradient-to-r from-cyan-50 to-transparent rounded-lg border-l-4 border-customCyan2 overflow-hidden transition-all duration-300"
+                      onMouseEnter={() => handleMouseEnter(program.id)}
+                      onMouseLeave={() => handleMouseLeave(program.id)}
+                    >
+                      <div className="w-full p-6">
+                        <div className="flex items-center justify-between">
+                          <h3 className="font-bold text-xl text-gray-900">
+                            Programa &quot;{program.titulo}&quot;
+                          </h3>
+                          <svg
+                            className={`w-5 h-5 text-gray-600 transition-transform duration-300 ${expandedPrograms.has(program.id) ? 'rotate-180' : ''}`}
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                          </svg>
+                        </div>
+                        <div className={`text-base text-gray-600 italic transition-all duration-300 ${expandedPrograms.has(program.id) ? 'opacity-0 mt-0 h-0' : 'opacity-100 mt-2'}`}>
+                          {program.descripcion.split('.')[0] + '.'}
+                        </div>
+                      </div>
+                      <div className={`overflow-hidden transition-all duration-300 ${expandedPrograms.has(program.id) ? 'max-h-96' : 'max-h-0'}`}>
+                        <div className="px-6 pb-6 pt-0">
+                          <p className="text-lg leading-relaxed text-gray-700 whitespace-pre-line">
+                            {program.descripcion}
+                          </p>
+                        </div>
+                      </div>
                     </div>
                   ))
                 } catch {
                   return about.programs.map((program) => (
-                    <div key={program.id} className="bg-gradient-to-r from-cyan-50 to-transparent p-6 rounded-lg border-l-4 border-customCyan2">
-                      <h3 className="font-bold text-xl text-gray-900 mb-3">
-                        Programa &quot;{program.name}&quot;
-                      </h3>
-                      <p className="text-lg leading-relaxed text-gray-700">
-                        {program.description}
-                      </p>
+                    <div 
+                      key={program.id} 
+                      className="bg-gradient-to-r from-cyan-50 to-transparent rounded-lg border-l-4 border-customCyan2 overflow-hidden transition-all duration-300"
+                      onMouseEnter={() => handleMouseEnter(program.id)}
+                      onMouseLeave={() => handleMouseLeave(program.id)}
+                    >
+                      <div className="w-full p-6">
+                        <div className="flex items-center justify-between">
+                          <h3 className="font-bold text-xl text-gray-900">
+                            Programa &quot;{program.name}&quot;
+                          </h3>
+                          <svg
+                            className={`w-5 h-5 text-gray-600 transition-transform duration-300 ${expandedPrograms.has(program.id) ? 'rotate-180' : ''}`}
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                          </svg>
+                        </div>
+                        <div className={`text-base text-gray-600 italic transition-all duration-300 ${expandedPrograms.has(program.id) ? 'opacity-0 mt-0 h-0' : 'opacity-100 mt-2'}`}>
+                          {program.description.split('.')[0] + '.'}
+                        </div>
+                      </div>
+                      <div className={`overflow-hidden transition-all duration-300 ${expandedPrograms.has(program.id) ? 'max-h-96' : 'max-h-0'}`}>
+                        <div className="px-6 pb-6 pt-0">
+                          <p className="text-lg leading-relaxed text-gray-700">
+                            {program.description}
+                          </p>
+                        </div>
+                      </div>
                     </div>
                   ))
                 }
               })()
             ) : (
               about.programs.map((program) => (
-                <div key={program.id} className="bg-gradient-to-r from-cyan-50 to-transparent p-6 rounded-lg border-l-4 border-customCyan2">
-                  <h3 className="font-bold text-xl text-gray-900 mb-3">
-                    Programa &quot;{program.name}&quot;
-                  </h3>
-                  <p className="text-lg leading-relaxed text-gray-700">
-                    {program.description}
-                  </p>
+                <div 
+                  key={program.id} 
+                  className="bg-gradient-to-r from-cyan-50 to-transparent rounded-lg border-l-4 border-customCyan2 overflow-hidden transition-all duration-300"
+                  onMouseEnter={() => handleMouseEnter(program.id)}
+                  onMouseLeave={() => handleMouseLeave(program.id)}
+                >
+                  <div className="w-full p-6">
+                    <div className="flex items-center justify-between">
+                      <h3 className="font-bold text-xl text-gray-900">
+                        Programa &quot;{program.name}&quot;
+                      </h3>
+                      <svg
+                        className={`w-5 h-5 text-gray-600 transition-transform duration-300 ${expandedPrograms.has(program.id) ? 'rotate-180' : ''}`}
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </div>
+                    <div className={`text-base text-gray-600 italic transition-all duration-300 ${expandedPrograms.has(program.id) ? 'opacity-0 mt-0 h-0' : 'opacity-100 mt-2'}`}>
+                      {program.description.split('.')[0] + '.'}
+                    </div>
+                  </div>
+                  <div className={`overflow-hidden transition-all duration-300 ${expandedPrograms.has(program.id) ? 'max-h-96' : 'max-h-0'}`}>
+                    <div className="px-6 pb-6 pt-0">
+                      <p className="text-lg leading-relaxed text-gray-700">
+                        {program.description}
+                      </p>
+                    </div>
+                  </div>
                 </div>
               ))
             )}
