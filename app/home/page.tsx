@@ -67,12 +67,15 @@ export default function HomePage() {
   // Traducir contenido cuando cambia el idioma
   useEffect(() => {
     async function translateConfig() {
+      console.log("🔄 useEffect traducción - locale:", locale, "config keys:", Object.keys(config))
+      
       if (locale === 'es' || Object.keys(config).length === 0) {
+        console.log("⏭️ Saltando traducción (español o sin config)")
         setTranslatedConfig(config)
         return
       }
 
-      console.log("🌐 Traduciendo contenido a", locale)
+      console.log("🌐 INICIANDO TRADUCCIÓN a", locale)
       setTranslating(true)
 
       try {
@@ -86,13 +89,17 @@ export default function HomePage() {
 
         for (const key of simpleKeys) {
           if (config[key]) {
+            console.log(`📝 Traduciendo ${key}:`, config[key].substring(0, 50) + '...')
             translated[key] = await translateContent(config[key])
+            console.log(`✅ ${key} traducido:`, translated[key].substring(0, 50) + '...')
           }
         }
 
         // Traducir JSON (prensa_list)
         if (config.prensa_list) {
+          console.log("📰 Traduciendo prensa_list...")
           translated.prensa_list = await translateJSONContent(config.prensa_list)
+          console.log("✅ prensa_list traducido")
         }
 
         // Copiar valores que no se traducen (URLs de fotos)
@@ -100,10 +107,10 @@ export default function HomePage() {
         translated.carrusel_foto_2 = config.carrusel_foto_2
         translated.carrusel_foto_3 = config.carrusel_foto_3
 
-        console.log("✅ Traducción completada")
+        console.log("✅ TRADUCCIÓN COMPLETADA", translated)
         setTranslatedConfig(translated)
       } catch (error) {
-        console.error("❌ Error traduciendo:", error)
+        console.error("❌ ERROR TRADUCIENDO:", error)
         setTranslatedConfig(config) // Fallback al original
       } finally {
         setTranslating(false)

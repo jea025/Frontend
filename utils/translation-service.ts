@@ -12,18 +12,15 @@ interface TranslationCache {
 }
 
 /**
- * Genera un hash MD5 para el texto (compatible con navegador)
+ * Genera un hash SHA-256 para el texto (compatible con navegador)
  */
 async function generateHash(text: string, sourceLang: string, targetLang: string): Promise<string> {
   const content = `${text}|${sourceLang}|${targetLang}`
   
-  // Usar Web Crypto API (disponible en navegadores)
+  // Usar Web Crypto API con SHA-256 (MD5 no está disponible en navegadores)
   const encoder = new TextEncoder()
   const data = encoder.encode(content)
-  const hashBuffer = await crypto.subtle.digest('MD5', data).catch(async () => {
-    // Fallback a SHA-256 si MD5 no está disponible
-    return await crypto.subtle.digest('SHA-256', data)
-  })
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data)
   
   const hashArray = Array.from(new Uint8Array(hashBuffer))
   const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('')
@@ -164,34 +161,40 @@ export async function translateText(
   sourceLang: string,
   targetLang: string
 ): Promise<string> {
+  console.log(`🔤 translateText llamado: "${text.substring(0, 30)}..." (${sourceLang} → ${targetLang})`)
+  
   // Si el texto está vacío o los idiomas son iguales, retornar el original
   if (!text || !text.trim() || sourceLang === targetLang) {
+    console.log("⏭️ Retornando original (vacío o mismo idioma)")
     return text
   }
 
   try {
     // 1. Buscar en caché
+    console.log("🔍 Buscando en caché...")
     const cached = await getCachedTranslation(text, sourceLang, targetLang)
     if (cached) {
-      console.log('✅ Traducción encontrada en caché')
+      console.log('✅ Traducción encontrada en caché:', cached.substring(0, 30) + '...')
       return cached
     }
 
-    console.log('🔄 Traduciendo con API...')
+    console.log('🔄 No encontrado en caché, traduciendo con API...')
 
     // 2. Intentar con DeepL
     try {
+      console.log("🌐 Intentando con DeepL...")
       const translated = await translateWithDeepL(text, sourceLang, targetLang)
       await saveCachedTranslation(text, translated, sourceLang, targetLang, 'deepl')
-      console.log('✅ Traducido con DeepL')
+      console.log('✅ Traducido con DeepL:', translated.substring(0, 30) + '...')
       return translated
     } catch (deeplError) {
       console.warn('⚠️ DeepL falló, intentando con Google Translate:', deeplError)
 
       // 3. Fallback a Google Translate
+      console.log("🌐 Intentando con Google Translate...")
       const translated = await translateWithGoogle(text, sourceLang, targetLang)
       await saveCachedTranslation(text, translated, sourceLang, targetLang, 'google')
-      console.log('✅ Traducido con Google Translate')
+      console.log('✅ Traducido con Google Translate:', translated.substring(0, 30) + '...')
       return translated
     }
   } catch (error) {
