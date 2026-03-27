@@ -4,14 +4,27 @@ import Image from "next/image";
 import Link from "next/link";
 import logo from "../../public/j-logo.svg";
 import { usePathname } from "next/navigation";
-import navigationData from "@/data/navigation.json";
+import LanguageSwitcherSimple from "@/components/LanguageSwitcherSimple";
+import { useI18n } from "@/lib/i18n-simple";
 
 const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const pathname = usePathname();
+  const { t } = useI18n();
 
-  const { menuItems, mobileContactInfo } = navigationData.navigation;
+  // Menu items with translation keys
+  const menuItems = [
+    { id: "inicio", labelKey: "nav.home", href: "/home" },
+    { id: "conocenos-mas", labelKey: "nav.about", href: "/journalism" },
+    { id: "galeria", labelKey: "nav.gallery", href: "/gallery" },
+    { id: "contacto", labelKey: "nav.contact", href: "/contacto" },
+  ];
+
+  const mobileContactInfo = {
+    titleKey: "nav.mobile.contact",
+    email: "correodejovenes@yahoo.com.ar"
+  };
 
   // Detectar si es dispositivo móvil
   useEffect(() => {
@@ -80,10 +93,13 @@ const Navbar: React.FC = () => {
                     pathname === item.href ? activeClass : defaultClass
                   }`}
                 >
-                  {item.label}
+                  {t(item.labelKey)}
                 </button>
               </Link>
             ))}
+            <div className="ml-4">
+              <LanguageSwitcherSimple />
+            </div>
           </div>
 
           {/* Mobile Hamburger Button */}
@@ -140,7 +156,7 @@ const Navbar: React.FC = () => {
                 }}
               >
                 <span className="inline-block transform transition-transform duration-300 hover:translate-x-2">
-                  {item.label}
+                  {t(item.labelKey)}
                 </span>
               </button>
             </Link>
@@ -148,8 +164,14 @@ const Navbar: React.FC = () => {
 
           {/* Contact Info in Mobile Menu */}
           <div className="px-6 py-4 mt-4 border-t border-cyan-700">
-            <p className="text-cyan-200 text-sm mb-2">{mobileContactInfo.title}</p>
+            <p className="text-cyan-200 text-sm mb-2">{t(mobileContactInfo.titleKey)}</p>
             <p className="text-white text-sm">📧 {mobileContactInfo.email}</p>
+            
+            {/* Language Switcher in Mobile Menu */}
+            <div className="mt-4 pt-4 border-t border-cyan-700">
+              <p className="text-cyan-200 text-sm mb-2">Idioma / Language</p>
+              <LanguageSwitcherSimple />
+            </div>
           </div>
         </div>
       </div>

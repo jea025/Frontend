@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar/Navbar";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Footer from "@/components/Footer/Footer";
 import { Analytics } from "@vercel/analytics/next";
+import { I18nProvider } from "@/lib/i18n-simple";
 
 
 const geistSans = localFont({
@@ -38,10 +39,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Navbar/>
-        {children}
-        <Footer/>
-        <Analytics />
+        <I18nProvider>
+          <Navbar/>
+          {children}
+          <Footer/>
+          <Analytics />
+        </I18nProvider>
       </body>
     </html>
   );
