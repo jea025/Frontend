@@ -67,7 +67,7 @@ export default function ControlledCarousel({ foto_principal, titulo_web, carruse
   // Función para generar el mensaje dinámico
   const getRadioMessage = () => {
     if (!radioData.dia || !radioData.mes) {
-      return 'Todos los jueves por radio cultura de 20 a 21 hs'
+      return 'Todos los jueves por Radio Cultura de 20 a 21 hs'
     }
 
     const currentDate = new Date()
@@ -128,17 +128,15 @@ export default function ControlledCarousel({ foto_principal, titulo_web, carruse
                       {getRadioMessage()}
                     </p>
                   ) : (
-                    <p className="text-slate-300 text-sm md:text-lg font-light">
-                      {slide.id === 2 ? (
-                        <p className="text-slate-300 text-sm md:text-lg font-light">
-                          Participaron más de 1.500 jóvenes
-                        </p>
-                      ) : (
-                        <p className="text-yellow-400 bg-yellow-400/10 border border-yellow-400/30 px-4 py-2 rounded-lg inline-block text-sm md:text-lg font-bold animate-pulse">
-                          Todos los jueves por Radio Cultura de 20 a 21 hs
-                        </p>
-                      )}
-                    </p>
+                    slide.id === 2 ? (
+                      <span className="text-slate-300 text-sm md:text-lg font-light">
+                        Participaron más de 1.500 jóvenes
+                      </span>
+                    ) : (
+                      <span className="text-yellow-400 bg-yellow-400/10 border border-yellow-400/30 px-4 py-2 rounded-lg inline-block text-sm md:text-lg font-bold animate-pulse">
+                        Todos los jueves por Radio Cultura de 20 a 21 hs
+                      </span>
+                    )
                   )}
                 </div>
               )}
