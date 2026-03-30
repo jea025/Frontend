@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { createClient } from '@/utils/supabase/client'
 
 interface PrensaItem {
   id: string
@@ -15,36 +14,20 @@ export default function PrensaDinamica() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    async function fetchPrensa() {
-      try {
-        const supabase = createClient()
-        
-        const { data, error } = await supabase
-          .from('configuracion')
-          .select('valor')
-          .eq('clave', 'prensa_list')
-          .single()
-
-        if (error) {
-          console.error('❌ Error fetching prensa:', error)
-          setPrensaItems([])
-          return
-        }
-
-        if (data?.valor) {
-          const parsed = JSON.parse(data.valor)
-          setPrensaItems(parsed)
-          console.log('✅ Prensa dinámica cargada:', parsed)
-        }
-      } catch (error) {
-        console.error('❌ Error parsing prensa:', error)
-        setPrensaItems([])
-      } finally {
-        setLoading(false)
-      }
+    // Simplified version without Supabase for now
+    try {
+      console.log('🔄 Loading prensa items...')
+      
+      // Set empty array for now to prevent crashes
+      setPrensaItems([])
+      
+      console.log('✅ Prensa items loaded (empty for now)')
+    } catch (error) {
+      console.error('❌ Error in useEffect:', error)
+      setPrensaItems([])
+    } finally {
+      setLoading(false)
     }
-
-    fetchPrensa()
   }, [])
 
   if (loading) {
