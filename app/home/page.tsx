@@ -5,7 +5,6 @@ import Carrusel from '@/components/Carrusel/Carrusel'
 import Nosotros from '@/components/Nosotros/Nosotros'
 import { createClient } from '@/utils/supabase/client'
 import { useI18n } from '@/lib/i18n-simple'
-import { useTranslateContent } from '@/hooks/useTranslateContent'
 
 export const dynamic = 'force-dynamic'
 
@@ -13,17 +12,11 @@ interface ConfigData {
   [key: string]: string
 }
 
-interface TranslatedConfigData {
-  [key: string]: string
-}
-
 export default function HomePage() {
   const { locale } = useI18n()
-  const { translateContent, translateJSONContent } = useTranslateContent()
   const [config, setConfig] = useState<ConfigData>({})
-  const [translatedConfig, setTranslatedConfig] = useState<TranslatedConfigData>({})
+  const [translatedConfig, setTranslatedConfig] = useState<ConfigData>({})
   const [loading, setLoading] = useState(true)
-  const [translating, setTranslating] = useState(false)
 
   // Cargar datos de Supabase
   useEffect(() => {
@@ -31,18 +24,14 @@ export default function HomePage() {
       const supabase = createClient()
       
       console.log("🔍 HOME PAGE - Cargando configuración...")
+      console.log("📋 Buscando en tabla: contenido_localizado")
       
-      const clavesNecesarias = [
-        'carrusel_foto_1', 'carrusel_foto_2', 'carrusel_foto_3',
-        'carrusel_titulo_1', 'carrusel_titulo_2', 'carrusel_titulo_3',
-        'descripcion_larga', 'mision_texto', 'vision_texto',
-        'prensa_list'
-      ]
-      
+      // Buscar en contenido_localizado con las columnas correctas
       const { data, error } = await supabase
-        .from('configuracion')
-        .select('clave, valor')
-        .in('clave', clavesNecesarias)
+        .from('contenido_localizado')
+        .select('clave, texto_es, texto_en')
+
+      console.log("📊 Respuesta de Supabase - data:", data?.length, "registros, error:", error)
 
       if (error) {
         console.error('❌ HOME PAGE - Error:', error)
@@ -51,12 +40,25 @@ export default function HomePage() {
         return
       }
 
+      if (!data || data.length === 0) {
+        console.error('❌ HOME PAGE - No se encontraron datos en contenido_localizado')
+        setConfig({})
+        setLoading(false)
+        return
+      }
+
+      // Mapear texto_es y texto_en
       const newConfig: ConfigData = {}
       data?.forEach(item => {
-        newConfig[item.clave] = item.valor
+        newConfig[item.clave] = item.texto_es
+        // También guardamos la versión en inglés si existe
+        if (item.texto_en) {
+          newConfig[`${item.clave}_en`] = item.texto_en
+        }
+        console.log(`  ✓ ${item.clave}: ${item.texto_es?.substring(0, 30)}...`)
       })
 
-      console.log("✅ HOME PAGE - Config cargado:", newConfig)
+      console.log("✅ HOME PAGE - Config cargado con", Object.keys(newConfig).length, "claves")
       setConfig(newConfig)
       setLoading(false)
     }
@@ -64,93 +66,71 @@ export default function HomePage() {
     getConfig()
   }, [])
 
-  // Traducir contenido cuando cambia el idioma
+  // Cambiar idioma cuando cambia el locale
   useEffect(() => {
-    async function translateConfig() {
-      console.log("🔄 useEffect traducción - locale:", locale, "config keys:", Object.keys(config))
-      
-      if (locale === 'es' || Object.keys(config).length === 0) {
-        console.log("⏭️ Saltando traducción (español o sin config)")
-        setTranslatedConfig(config)
-        return
-      }
-
-      console.log("🌐 INICIANDO TRADUCCIÓN a", locale)
-      setTranslating(true)
-
-      try {
-        const translated: TranslatedConfigData = {}
-
-        // Traducir textos simples
-        const simpleKeys = [
-          'carrusel_titulo_1', 'carrusel_titulo_2', 'carrusel_titulo_3',
-          'descripcion_larga', 'mision_texto', 'vision_texto'
-        ]
-
-        for (const key of simpleKeys) {
-          if (config[key]) {
-            console.log(`📝 Traduciendo ${key}:`, config[key].substring(0, 50) + '...')
-            translated[key] = await translateContent(config[key])
-            console.log(`✅ ${key} traducido:`, translated[key].substring(0, 50) + '...')
-          }
-        }
-
-        // Traducir JSON (prensa_list)
-        if (config.prensa_list) {
-          console.log("📰 Traduciendo prensa_list...")
-          translated.prensa_list = await translateJSONContent(config.prensa_list)
-          console.log("✅ prensa_list traducido")
-        }
-
-        // Copiar valores que no se traducen (URLs de fotos)
-        translated.carrusel_foto_1 = config.carrusel_foto_1
-        translated.carrusel_foto_2 = config.carrusel_foto_2
-        translated.carrusel_foto_3 = config.carrusel_foto_3
-
-        console.log("✅ TRADUCCIÓN COMPLETADA", translated)
-        setTranslatedConfig(translated)
-      } catch (error) {
-        console.error("❌ ERROR TRADUCIENDO:", error)
-        setTranslatedConfig(config) // Fallback al original
-      } finally {
-        setTranslating(false)
-      }
+    const configKeys = Object.keys(config)
+    console.log("🔄 useEffect idioma - locale:", locale, "config keys:", configKeys.length)
+    
+    // Si no hay config cargado, esperar
+    if (configKeys.length === 0) {
+      console.log("⏭️ Saltando cambio de idioma (config vacío)")
+      return
+    }
+    
+    // Si el idioma es español, usar config original (texto_es)
+    if (locale === 'es') {
+      console.log("⏭️ Usando textos en español")
+      setTranslatedConfig(config)
+      return
     }
 
-    translateConfig()
-  }, [locale, config, translateContent, translateJSONContent])
+    // Si el idioma es inglés, usar las versiones _en
+    console.log("🌐 Cambiando a inglés")
+    const translated: ConfigData = {}
+    
+    // Para cada clave, buscar su versión _en
+    Object.keys(config).forEach(key => {
+      if (key.endsWith('_en')) {
+        // Saltar las claves _en, las usaremos desde las claves base
+        return
+      }
+      
+      const enKey = `${key}_en`
+      if (config[enKey]) {
+        // Si existe traducción en inglés, usarla
+        translated[key] = config[enKey]
+        console.log(`  ✓ ${key}: usando ${enKey}`)
+      } else {
+        // Si no existe, usar el español (fallback)
+        translated[key] = config[key]
+        console.log(`  ⚠️ ${key}: no hay traducción, usando español`)
+      }
+    })
+
+    console.log("✅ CAMBIO DE IDIOMA COMPLETADO")
+    setTranslatedConfig(translated)
+  }, [locale, config])
+
+  // Usar config traducido o original según el idioma
+  const displayConfig = locale === 'es' ? config : translatedConfig
 
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="text-lg font-semibold text-gray-600">
-            {locale === 'es' ? 'Cargando...' : 'Loading...'}
+            {displayConfig.loading_text || (locale === 'es' ? 'Cargando...' : 'Loading...')}
           </div>
           <div className="text-sm text-gray-500 mt-2">
-            {locale === 'es' ? 'Preparando el contenido' : 'Preparing content'}
+            {displayConfig.loading_subtitle || (locale === 'es' ? 'Preparando el contenido' : 'Preparing content')}
           </div>
         </div>
       </div>
     )
   }
 
-  // Usar config traducido o original según el idioma
-  const displayConfig = locale === 'es' ? config : translatedConfig
-
   return (
     <div className="w-full h-auto overflow-x-hidden">
-      {/* Indicador de traducción */}
-      {translating && (
-        <div className="fixed top-24 right-4 bg-blue-500 text-white px-4 py-2 rounded-lg shadow-lg z-50 flex items-center gap-2">
-          <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-          </svg>
-          <span>{locale === 'es' ? 'Traduciendo...' : 'Translating...'}</span>
-        </div>
-      )}
-
       {/* 1. Hero/Carrusel con texto dinámico traducido */}
       <div className="w-full h-auto overflow-x-hidden">
         <Carrusel 
@@ -181,12 +161,12 @@ export default function HomePage() {
         <section className="py-20 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
-              {locale === 'es' ? 'Prensa y Premios' : 'Press and Awards'}
+              {displayConfig.prensa_title || (locale === 'es' ? 'Prensa y Premios' : 'Press and Awards')}
             </h2>
             <div className="prensaContainer">
               <div className="prensaSubsection">
                 <h2 className="texto tituloH2">
-                  {locale === 'es' ? 'Artículos de Prensa' : 'Press Articles'}
+                  {displayConfig.prensa_articles_title || (locale === 'es' ? 'Artículos de Prensa' : 'Press Articles')}
                 </h2>
                 
                 <div className="articulosLista">

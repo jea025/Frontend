@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "translate": "node scripts/translate-content.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.5.2",
@@ -24,6 +25,7 @@
     "@types/node": "20.19.1",
     "@types/react": "18.3.23",
     "@types/react-dom": "^18",
+    "dotenv": "^16.4.5",
     "eslint": "^8",
     "eslint-config-next": "15.0.3",
     "postcss": "^8",
