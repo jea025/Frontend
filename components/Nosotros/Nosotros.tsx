@@ -1,8 +1,11 @@
 'use client'
 
+import { useEffect, useState } from "react";
 import Cards from "./Cards";
 import aboutData from "@/data/about.json";
 import { useContent } from "@/hooks/useContent";
+import { createClient } from '@/utils/supabase/client';
+import { useI18n } from '@/lib/i18n-simple';
 
 interface NosotrosProps {
   descripcion_larga?: string;
@@ -13,18 +16,88 @@ interface NosotrosProps {
   prensa_list?: string;
 }
 
+interface Program {
+  id: string;
+  titulo: string;
+  descripcion: string;
+}
+
 export default function Nosotros({ descripcion_larga, mision_texto, vision_texto, programas_list, conocenos_list, prensa_list }: NosotrosProps) {
   const { about, radio, video } = aboutData;
   const { content: aboutTexts } = useContent({ prefix: 'about_', removePrefix: true });
   const { content: radioTexts } = useContent({ prefix: 'radio_', removePrefix: true });
   const { content: videoTexts } = useContent({ prefix: 'video_', removePrefix: true });
+  const { locale } = useI18n();
+  const [programs, setPrograms] = useState<Program[]>([]);
+  const [loadingPrograms, setLoadingPrograms] = useState(true);
+
+  // Cargar programas desde la base de datos
+  useEffect(() => {
+    async function loadPrograms() {
+      try {
+        const supabase = createClient();
+        
+        // Buscar todos los programas en contenido_localizado
+        const { data, error } = await supabase
+          .from('contenido_localizado')
+          .select('clave, texto_es, texto_en')
+          .like('clave', 'program_%');
+
+        if (error) {
+          console.error('Error loading programs:', error);
+          setLoadingPrograms(false);
+          return;
+        }
+
+        // Agrupar por programa (program_1_title, program_1_description, etc.)
+        const programsMap: { [key: string]: { titulo_es?: string; titulo_en?: string; descripcion_es?: string; descripcion_en?: string } } = {};
+        
+        data?.forEach(item => {
+          const match = item.clave.match(/program_(\d+)_(title|description)/);
+          if (match) {
+            const programId = match[1];
+            const field = match[2];
+            
+            if (!programsMap[programId]) {
+              programsMap[programId] = {};
+            }
+            
+            if (field === 'title') {
+              programsMap[programId].titulo_es = item.texto_es;
+              programsMap[programId].titulo_en = item.texto_en;
+            } else if (field === 'description') {
+              programsMap[programId].descripcion_es = item.texto_es;
+              programsMap[programId].descripcion_en = item.texto_en;
+            }
+          }
+        });
+
+        // Convertir a array de programas
+        const programsArray: Program[] = Object.keys(programsMap)
+          .sort((a, b) => parseInt(a) - parseInt(b))
+          .map(id => ({
+            id,
+            titulo: locale === 'en' && programsMap[id].titulo_en ? programsMap[id].titulo_en! : programsMap[id].titulo_es!,
+            descripcion: locale === 'en' && programsMap[id].descripcion_en ? programsMap[id].descripcion_en! : programsMap[id].descripcion_es!
+          }));
+
+        setPrograms(programsArray);
+        setLoadingPrograms(false);
+      } catch (error) {
+        console.error('Error loading programs:', error);
+        setLoadingPrograms(false);
+      }
+    }
+
+    loadPrograms();
+  }, [locale]);
 
   return (
     <div className="w-full h-auto">
       {/* Sección Acerca de nosotros */}
       <div className="max-w-6xl mx-auto px-6 md:px-12 py-16">
         <h2 className="text-4xl md:text-5xl font-bold mb-8 text-gray-800">
-          <span className="text-customCyan2 font-bold">|</span> {about.title}
+          <span className="text-customCyan2 font-bold">|</span> {aboutTexts.section_title || about.title}
         </h2>
         
         <div className="prose prose-lg max-w-none text-gray-700 leading-relaxed space-y-6">
@@ -77,7 +150,20 @@ export default function Nosotros({ descripcion_larga, mision_texto, vision_texto
           
           {/* Programas */}
           <div className="mt-12 space-y-8">
-            {programas_list ? (
+            {loadingPrograms ? (
+              <div className="text-center text-gray-500">Cargando programas...</div>
+            ) : programs.length > 0 ? (
+              programs.map((program) => (
+                <div key={program.id} className="bg-gradient-to-r from-cyan-50 to-transparent p-6 rounded-lg border-l-4 border-customCyan2">
+                  <h3 className="font-bold text-xl text-gray-900 mb-3">
+                    {aboutTexts.program_prefix || "Programa"} &quot;{program.titulo}&quot;
+                  </h3>
+                  <p className="text-lg leading-relaxed text-gray-700 whitespace-pre-line">
+                    {program.descripcion}
+                  </p>
+                </div>
+              ))
+            ) : programas_list ? (
               (() => {
                 try {
                   const programas = JSON.parse(programas_list)

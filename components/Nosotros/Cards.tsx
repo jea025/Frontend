@@ -1,5 +1,6 @@
 import "./Cards.css";
 import missionVisionData from "@/data/mission-vision.json";
+import { useText } from "@/hooks/useContent";
 
 interface CardsProps {
   mision_texto?: string;
@@ -8,6 +9,8 @@ interface CardsProps {
 
 export default function Cards({ mision_texto, vision_texto }: CardsProps) {
   const { mission, vision } = missionVisionData;
+  const missionTitle = useText('mission_title', mission.title);
+  const visionTitle = useText('vision_title', vision.title);
 
   return (
     <div>
@@ -16,10 +19,10 @@ export default function Cards({ mision_texto, vision_texto }: CardsProps) {
         <div className="flip-card">
           <div className="flip-card-inner">
             <div className="flip-card-front mision">
-              <h2>{mission.title}</h2>
+              <h2>{missionTitle}</h2>
             </div>
             <div className="flip-card-back">
-              <h2>{mission.title}</h2>
+              <h2>{missionTitle}</h2>
               <p className="whitespace-pre-line">{mision_texto || mission.description}</p>
             </div>
           </div>
@@ -29,10 +32,10 @@ export default function Cards({ mision_texto, vision_texto }: CardsProps) {
         <div className="flip-card">
           <div className="flip-card-inner">
             <div className="flip-card-front vision">
-              <h2>{vision.title}</h2>
+              <h2>{visionTitle}</h2>
             </div>
             <div className="flip-card-back">
-              <h2>{vision.title}</h2>
+              <h2>{visionTitle}</h2>
               <p className="whitespace-pre-line">{vision_texto || vision.description}</p>
             </div>
           </div>
