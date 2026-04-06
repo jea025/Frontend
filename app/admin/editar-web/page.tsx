@@ -9,9 +9,11 @@ import CarruselImages from '@/components/CarruselImages'
 import RadioSchedule from '@/components/RadioSchedule'
 
 interface ConfigItem {
-  id: number
+  id: string
   clave: string
   valor: string
+  texto_es: string
+  texto_en: string
   tipo: 'texto' | 'imagen' | 'textarea' | 'lista_programas' | 'lista_conocenos' | 'lista_prensa' | 'lista_logros'
   seccion: string
 }
@@ -46,22 +48,30 @@ export default function EditarWebPage() {
     const supabase = createClient()
     
     const { data, error } = await supabase
-      .from('configuracion')
-      .select('*')
-      .order('seccion', { ascending: true })
+      .from('contenido_multilenguaje')
+      .select('id, clave, texto_es, texto_en, contexto')
+      .eq('contexto', 'backoffice')
       .order('clave', { ascending: true })
 
     if (error) {
       setMessage({ type: 'error', text: `Error cargando configuración: ${error.message}` })
     } else {
-      setConfigItems(data || [])
+      // Mapear los datos para que funcionen con la interfaz existente
+      const mappedData = (data || []).map(item => ({
+        ...item,
+        valor: item.texto_es, // Usar texto_es como valor para edición
+        tipo: 'texto' as const,
+        seccion: 'General'
+      }))
+      
+      setConfigItems(mappedData)
       
       // Extraer datos del carrusel y schedule
-      const carruselFoto1 = data?.find(item => item.clave === 'carrusel_foto_1')
-      const carruselFoto2 = data?.find(item => item.clave === 'carrusel_foto_2')
-      const carruselFoto3 = data?.find(item => item.clave === 'carrusel_foto_3')
-      const radioDia = data?.find(item => item.clave === 'radio_dia')
-      const radioMes = data?.find(item => item.clave === 'radio_mes')
+      const carruselFoto1 = mappedData?.find(item => item.clave === 'carrusel_foto_1')
+      const carruselFoto2 = mappedData?.find(item => item.clave === 'carrusel_foto_2')
+      const carruselFoto3 = mappedData?.find(item => item.clave === 'carrusel_foto_3')
+      const radioDia = mappedData?.find(item => item.clave === 'radio_dia')
+      const radioMes = mappedData?.find(item => item.clave === 'radio_mes')
       
       setCarruselImages({
         foto1: carruselFoto1?.valor || '',
@@ -395,7 +405,7 @@ export default function EditarWebPage() {
           <div className="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl p-6">
             <p className="text-gray-500 text-center">
               No hay elementos de configuración disponibles. 
-              Asegúrate de que la tabla 'configuracion' tenga registros.
+              Asegúrate de que la tabla 'contenido_multilenguaje' tenga registros con contexto='backoffice'.
             </p>
           </div>
         )}

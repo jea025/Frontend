@@ -1,5 +1,6 @@
 import { createClient } from '@/utils/supabase/server'
 import { NextRequest, NextResponse } from 'next/server'
+import crypto from 'crypto'
 
 export async function POST(request: NextRequest) {
   try {
@@ -19,17 +20,21 @@ export async function POST(request: NextRequest) {
     
     console.log("✅ API SAVE - Usuario autenticado:", user.email)
 
-    // Actualizar cada configuración
+    // Actualizar cada configuración en contenido_multilenguaje
     for (const update of updates) {
       console.log(`📝 API SAVE - Procesando ${update.clave}:`, update.valor)
       
+      // Calcular hash MD5 del texto_es para detectar cambios
+      const hash = crypto.createHash('md5').update(update.valor).digest('hex')
+      
       const { error } = await supabase
-        .from('configuracion')
+        .from('contenido_multilenguaje')
         .upsert({ 
           clave: update.clave, 
-          valor: update.valor,
-          tipo: 'texto',
-          seccion: 'General'
+          texto_es: update.valor,
+          hash_md5: hash,
+          contexto: 'backoffice',
+          estado: 'activo'
         }, {
           onConflict: 'clave'
         })
@@ -39,7 +44,7 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ error: `Error actualizando ${update.clave}: ${error.message}` }, { status: 500 })
       }
       
-      console.log(`✅ API SAVE - Guardado ${update.clave} exitosamente`)
+      console.log(`✅ API SAVE - Guardado ${update.clave} exitosamente (hash: ${hash.substring(0, 8)}...)`)
     }
 
     console.log("🔄 API SAVE - Ejecutando revalidatePath('/')")

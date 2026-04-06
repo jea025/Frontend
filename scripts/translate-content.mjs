@@ -131,11 +131,14 @@ async function translateText(text) {
 async function main() {
   console.log('🌐 Iniciando traducción automática de contenido...\n')
 
+  // Importar crypto para calcular hashes
+  const crypto = await import('crypto')
+
   // 1. Obtener todos los registros
   console.log('📋 Cargando registros de contenido_multilenguaje...')
   const { data: records, error, status, statusText } = await supabase
     .from('contenido_multilenguaje')
-    .select('id, clave, texto_es, texto_en')
+    .select('id, clave, texto_es, texto_en, hash_md5')
 
   console.log('🔍 Debug - Status:', status, statusText)
   console.log('🔍 Debug - Error:', error)
@@ -154,8 +157,23 @@ async function main() {
 
   // 2. Filtrar registros que necesitan traducción
   const needsTranslation = records.filter(record => {
-    // Necesita traducción si texto_en está vacío o es igual a texto_es
-    return !record.texto_en || record.texto_en.trim() === '' || record.texto_en === record.texto_es
+    // Necesita traducción si:
+    // - texto_en está vacío
+    // - texto_en es igual a texto_es
+    if (!record.texto_en || record.texto_en.trim() === '' || record.texto_en === record.texto_es) {
+      return true
+    }
+    
+    // Calcular hash actual de texto_es y comparar con hash_md5 guardado
+    // Si no coinciden, significa que texto_es cambió y necesita re-traducción
+    const currentHash = crypto.createHash('md5').update(record.texto_es).digest('hex')
+    
+    if (record.hash_md5 && record.hash_md5 !== currentHash) {
+      console.log(`  🔄 Detectado cambio en: ${record.clave} (hash viejo: ${record.hash_md5.substring(0, 8)}..., hash nuevo: ${currentHash.substring(0, 8)}...)`)
+      return true
+    }
+    
+    return false
   })
 
   console.log(`🔍 Encontrados ${needsTranslation.length} registros que necesitan traducción\n`)
@@ -181,10 +199,16 @@ async function main() {
       const translatedText = await translateText(record.texto_es)
       console.log(`  ✅ EN: ${translatedText.substring(0, 60)}...`)
 
+      // Calcular hash MD5 del texto_es para cache
+      const newHash = crypto.createHash('md5').update(record.texto_es).digest('hex')
+
       // Actualizar en Supabase usando id en vez de clave
       const { error: updateError } = await supabase
         .from('contenido_multilenguaje')
-        .update({ texto_en: translatedText })
+        .update({ 
+          texto_en: translatedText,
+          hash_md5: newHash
+        })
         .eq('id', record.id)
 
       if (updateError) {
