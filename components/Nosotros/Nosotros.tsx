@@ -1,5 +1,8 @@
+'use client'
+
 import Cards from "./Cards";
 import aboutData from "@/data/about.json";
+import { useContent } from "@/hooks/useContent";
 
 interface NosotrosProps {
   descripcion_larga?: string;
@@ -12,6 +15,9 @@ interface NosotrosProps {
 
 export default function Nosotros({ descripcion_larga, mision_texto, vision_texto, programas_list, conocenos_list, prensa_list }: NosotrosProps) {
   const { about, radio, video } = aboutData;
+  const { content: aboutTexts } = useContent({ prefix: 'about_', removePrefix: true });
+  const { content: radioTexts } = useContent({ prefix: 'radio_', removePrefix: true });
+  const { content: videoTexts } = useContent({ prefix: 'video_', removePrefix: true });
 
   return (
     <div className="w-full h-auto">
@@ -35,7 +41,7 @@ export default function Nosotros({ descripcion_larga, mision_texto, vision_texto
           )}
           
           <p className="text-lg leading-relaxed mt-6">
-              Se consolidó como una organización que tiene el apoyo institucional de la{" "}
+              {aboutTexts.partner_text || "Se consolidó como una organización que tiene el apoyo institucional de la"}{" "}
               {/* Link a FECIC */}
               <a 
                 href={about.partners[0].url} 
@@ -44,7 +50,7 @@ export default function Nosotros({ descripcion_larga, mision_texto, vision_texto
                 className="text-customCyan2 font-semibold hover:text-cyan-600 underline decoration-2 underline-offset-4"
               >
                 {about.partners[0].fullName}
-              </a>, y que ha sido seleccionada por{" "}
+              </a>{aboutTexts.partner_selected_by || ", y que ha sido seleccionada por"}{" "}
               
               {/* Link a HELP ARGENTINA */}
               <a 
@@ -56,7 +62,7 @@ export default function Nosotros({ descripcion_larga, mision_texto, vision_texto
                 {about.partners[1].name}
               </a>{" "}
               
-              para poder recibir fondos desde el exterior, y es miembro de{" "}
+              {aboutTexts.partner_receive_funds || "para poder recibir fondos desde el exterior, y es miembro de"}{" "}
               
               {/* Link a POTENCIAR SOLIDARIO */}
               <a 
@@ -66,7 +72,7 @@ export default function Nosotros({ descripcion_larga, mision_texto, vision_texto
                 className="text-customCyan2 font-semibold hover:text-cyan-600 underline decoration-2 underline-offset-4"
               >
                 {about.partners[2].name}
-              </a>. Ha impactado en más de 24.000 niños, adolescentes y jóvenes de todo el país.
+              </a>{aboutTexts.impact_text || ". Ha impactado en más de 24.000 niños, adolescentes y jóvenes de todo el país."}
             </p>
           
           {/* Programas */}
@@ -78,7 +84,7 @@ export default function Nosotros({ descripcion_larga, mision_texto, vision_texto
                   return programas.map((program: any) => (
                     <div key={program.id} className="bg-gradient-to-r from-cyan-50 to-transparent p-6 rounded-lg border-l-4 border-customCyan2">
                       <h3 className="font-bold text-xl text-gray-900 mb-3">
-                        Programa &quot;{program.titulo}&quot;
+                        {aboutTexts.program_prefix || "Programa"} &quot;{program.titulo}&quot;
                       </h3>
                       <p className="text-lg leading-relaxed text-gray-700 whitespace-pre-line">
                         {program.descripcion}
@@ -89,7 +95,7 @@ export default function Nosotros({ descripcion_larga, mision_texto, vision_texto
                   return about.programs.map((program) => (
                     <div key={program.id} className="bg-gradient-to-r from-cyan-50 to-transparent p-6 rounded-lg border-l-4 border-customCyan2">
                       <h3 className="font-bold text-xl text-gray-900 mb-3">
-                        Programa &quot;{program.name}&quot;
+                        {aboutTexts.program_prefix || "Programa"} &quot;{program.name}&quot;
                       </h3>
                       <p className="text-lg leading-relaxed text-gray-700">
                         {program.description}
@@ -102,7 +108,7 @@ export default function Nosotros({ descripcion_larga, mision_texto, vision_texto
               about.programs.map((program) => (
                 <div key={program.id} className="bg-gradient-to-r from-cyan-50 to-transparent p-6 rounded-lg border-l-4 border-customCyan2">
                   <h3 className="font-bold text-xl text-gray-900 mb-3">
-                    Programa &quot;{program.name}&quot;
+                    {aboutTexts.program_prefix || "Programa"} &quot;{program.name}&quot;
                   </h3>
                   <p className="text-lg leading-relaxed text-gray-700">
                     {program.description}
@@ -118,10 +124,10 @@ export default function Nosotros({ descripcion_larga, mision_texto, vision_texto
       <div className="flex flex-col justify-center items-center min-h-[400px] bg-no-repeat bg-cover bg-fixed bg-center bg-radio py-16 px-6">
         <div className="bg-black/40 backdrop-blur-sm rounded-2xl p-8 md:p-12 max-w-4xl">
           <h2 className="text-center select-none text-3xl md:text-4xl text-white font-bold mb-6">
-            {radio.title}
+            {radioTexts.section_title || radio.title}
           </h2>
           <p className="text-center select-none text-lg md:text-xl text-white leading-relaxed">
-            {radio.description}
+            {radioTexts.section_description || radio.description}
             <a 
               href={radio.youtubeUrl} 
               className="text-cyan-300 hover:text-cyan-100 transition-colors duration-300 underline decoration-cyan-300 hover:decoration-cyan-100 decoration-2 underline-offset-4 block mt-4"
@@ -142,7 +148,7 @@ export default function Nosotros({ descripcion_larga, mision_texto, vision_texto
       {/* Video de YouTube */}
       <div className="w-full max-w-5xl mx-auto px-6 md:px-12 mb-20">
         <h2 className="text-3xl md:text-4xl font-bold text-gray-800 text-center mb-10">
-          {video.title}
+          {videoTexts.section_title || video.title}
         </h2>
         <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-2xl ring-1 ring-gray-200">
           <iframe

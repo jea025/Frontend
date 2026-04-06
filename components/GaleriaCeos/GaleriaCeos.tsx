@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect, useCallback } from "react";
 import Image, { StaticImageData } from "next/image";
+import { useContent } from "@/hooks/useContent";
 import "./GaleriaCeos.css";
 
 // Importar las imágenes de CEOs
@@ -96,6 +97,9 @@ const imagenesVoluntariado: ImagenGaleria[] = [
 ];
 
 export default function GaleriaCeos() {
+  // Cargar textos traducidos de la galería
+  const { content: galleryTexts } = useContent({ prefix: 'gallery_', removePrefix: true });
+  
   const [imagenSeleccionada, setImagenSeleccionada] = useState<{galeria: string; index: number} | null>(null);
 
   const abrirModal = useCallback((galeria: string, index: number) => {
@@ -186,7 +190,7 @@ export default function GaleriaCeos() {
             <div className="overlay">
               <div className="overlay-content">
                 <h3 className="imagen-titulo">{imagen.titulo}</h3>
-                <p className="click-para-ampliar">Toca para ampliar</p>
+                <p className="click-para-ampliar">{galleryTexts.click_to_enlarge || "Toca para ampliar"}</p>
               </div>
             </div>
           </div>
@@ -201,19 +205,16 @@ export default function GaleriaCeos() {
       <div className="galeria-ceos-container">
         <div className="descripcion-section">
           <h1 className="titulo-principal">
-            <span className="texto-destacado">Jóvenes en Acción</span> en{" "}
-            <span className="texto-radio">RADIO CULTURA</span>
+            <span className="texto-destacado">{galleryTexts.ceos_title_1 || "Jóvenes en Acción"}</span> {galleryTexts.ceos_title_2 || "en"}{" "}
+            <span className="texto-radio">{galleryTexts.ceos_title_3 || "RADIO CULTURA"}</span>
           </h1>
           <h2 className="subtitulo">
-            Entrevistas a <span className="texto-ceos">CEOS de Empresas</span>,{" "}
-            <span className="texto-emprendedores">Emprendedores</span> y{" "}
-            <span className="texto-especialistas">Especialistas</span>
+            {galleryTexts.ceos_subtitle_1 || "Entrevistas a"} <span className="texto-ceos">{galleryTexts.ceos_subtitle_2 || "CEOS de Empresas"}</span>,{" "}
+            <span className="texto-emprendedores">{galleryTexts.ceos_subtitle_3 || "Emprendedores"}</span> {galleryTexts.ceos_subtitle_4 || "y"}{" "}
+            <span className="texto-especialistas">{galleryTexts.ceos_subtitle_5 || "Especialistas"}</span>
           </h2>
           <p className="descripcion-texto">
-            Descubre los momentos más inspiradores de nuestro programa radial, donde jóvenes 
-            tienen la oportunidad única de entrevistar a líderes empresariales, emprendedores 
-            exitosos y especialistas de diversas áreas, creando un puente generacional lleno 
-            de aprendizaje y motivación.
+            {galleryTexts.ceos_description || "Descubre los momentos más inspiradores de nuestro programa radial, donde jóvenes tienen la oportunidad única de entrevistar a líderes empresariales, emprendedores exitosos y especialistas de diversas áreas, creando un puente generacional lleno de aprendizaje y motivación."}
           </p>
         </div>
 
@@ -224,10 +225,10 @@ export default function GaleriaCeos() {
       <div className="segunda-seccion">
         <div className="descripcion-secundaria">
           <h2 className="titulo-secundario">
-            <span className="texto-programas">Programas</span> con la{" "}
-            <span className="texto-produccion">Producción y Conducción</span> de{" "}
-            <span className="texto-alumnos">alumnos secundarios</span> de{" "}
-            <span className="texto-colegios">distintos Colegios</span>
+            <span className="texto-programas">{galleryTexts.schools_title_1 || "Programas"}</span> {galleryTexts.schools_title_2 || "con la"}{" "}
+            <span className="texto-produccion">{galleryTexts.schools_title_3 || "Producción y Conducción"}</span> {galleryTexts.schools_title_4 || "de"}{" "}
+            <span className="texto-alumnos">{galleryTexts.schools_title_5 || "alumnos secundarios"}</span> {galleryTexts.schools_title_6 || "de"}{" "}
+            <span className="texto-colegios">{galleryTexts.schools_title_7 || "distintos Colegios"}</span>
           </h2>
         </div>
         
@@ -239,7 +240,7 @@ export default function GaleriaCeos() {
           {/* Título - Sin fondo, integrado al flujo */}
           <div className="relative mb-8 flex flex-col items-center">
             <h3 className="text-slate-800 text-3xl md:text-4xl font-extrabold tracking-tight text-center">
-              Eventos en los que participamos:
+              {galleryTexts.events_title || "Eventos en los que participamos:"}
             </h3>
             {/* Una línea un poco más estética */}
             <div className="h-1.5 w-16 bg-blue-600 mt-4 rounded-full"></div>
@@ -247,9 +248,8 @@ export default function GaleriaCeos() {
 
           {/* Descripción - Color sólido sin transparencias extrañas */}
           <p className="max-w-2xl text-slate-700 text-center text-sm md:text-base leading-relaxed mb-10 font-medium px-2">
-            ¡Presentes en el lanzamiento del primer <span className="font-bold text-blue-700">"Colectivo Saludable y Sustentable"</span> de Argentina! 
-            Contó con la colaboración de Fundación Barceló y otras universidades, donde nuestra integrante 
-            <span className="text-slate-900 font-bold border-b-2 border-blue-200"> Francesca Simonotto</span> (alumna de Medicina de Barceló) representó a Jóvenes en Acción.
+            {galleryTexts.events_bus_description || "¡Presentes en el lanzamiento del primer"} <span className="font-bold text-blue-700">{galleryTexts.events_bus_name || '"Colectivo Saludable y Sustentable"'}</span> {galleryTexts.events_bus_description_2 || "de Argentina! Contó con la colaboración de Fundación Barceló y otras universidades, donde nuestra integrante"} 
+            <span className="text-slate-900 font-bold border-b-2 border-blue-200"> {galleryTexts.events_member_name || "Francesca Simonotto"}</span> {galleryTexts.events_member_description || "(alumna de Medicina de Barceló) representó a Jóvenes en Acción."}
           </p>
 
           {/* Contenedor del Video - Ahora con una sombra más suave para que no "explote" sobre el fondo */}
@@ -261,7 +261,7 @@ export default function GaleriaCeos() {
               className="w-full h-auto block"
             >
               <source src="/JEA_Fundacion_Barcelo.mp4#t=0.001" type="video/mp4" />
-              Tu navegador no soporta videos.
+              {galleryTexts.events_video_error || "Tu navegador no soporta videos."}
             </video>
           </div>
           
@@ -283,7 +283,7 @@ export default function GaleriaCeos() {
               <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
               <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
             </svg>
-            Ver Reel completo
+            {galleryTexts.events_instagram_button || "Ver Reel completo"}
           </a>
 
         </div>
@@ -294,10 +294,10 @@ export default function GaleriaCeos() {
       <div className="tercera-seccion">
         <div className="descripcion-terciaria">
           <h2 className="titulo-terciario">
-            <span className="texto-proyecto">PROYECTO</span>{" "}
-            <span className="texto-forestacion">FORESTACIÓN</span>,{" "}
-            <span className="texto-educacion-valores">EDUCACIÓN</span> y{" "}
-            <span className="texto-valores">VALORES</span>
+            <span className="texto-proyecto">{galleryTexts.forest_title_1 || "PROYECTO"}</span>{" "}
+            <span className="texto-forestacion">{galleryTexts.forest_title_2 || "FORESTACIÓN"}</span>,{" "}
+            <span className="texto-educacion-valores">{galleryTexts.forest_title_3 || "EDUCACIÓN"}</span> {galleryTexts.forest_title_4 || "y"}{" "}
+            <span className="texto-valores">{galleryTexts.forest_title_5 || "VALORES"}</span>
           </h2>
         </div>
         
@@ -308,13 +308,13 @@ export default function GaleriaCeos() {
       <div className="cuarta-seccion">
         <div className="descripcion-cuarta">
           <h2 className="titulo-cuarto">
-            <span className="texto-voluntariado">VOLUNTARIADO</span> en{" "}
-            <span className="texto-forestacion">HOGAR</span> {" "}
-            <span className="texto-educacion-valores">DE</span> {" "}
-            <span className="texto-valores">NIÑOS</span> {" "}
-            <span className="texto-forestacion">&ldquo;Puerta </span>
-            <span className="texto-educacion-valores">del</span> {" "}
-            <span className="texto-valores">Cielo&rdquo;</span>
+            <span className="texto-voluntariado">{galleryTexts.volunteer_title_1 || "VOLUNTARIADO"}</span> {galleryTexts.volunteer_title_2 || "en"}{" "}
+            <span className="texto-forestacion">{galleryTexts.volunteer_title_3 || "HOGAR"}</span> {" "}
+            <span className="texto-educacion-valores">{galleryTexts.volunteer_title_4 || "DE"}</span> {" "}
+            <span className="texto-valores">{galleryTexts.volunteer_title_5 || "NIÑOS"}</span> {" "}
+            <span className="texto-forestacion">{galleryTexts.volunteer_title_6 || '"Puerta'} </span>
+            <span className="texto-educacion-valores">{galleryTexts.volunteer_title_7 || "del"}</span> {" "}
+            <span className="texto-valores">{galleryTexts.volunteer_title_8 || 'Cielo"'}</span>
           </h2>
         </div>
         
@@ -337,7 +337,7 @@ export default function GaleriaCeos() {
               <button 
                 className="boton-cerrar" 
                 onClick={cerrarModal}
-                aria-label="Cerrar modal"
+                aria-label={galleryTexts.modal_close || "Cerrar modal"}
               >
                 ×
               </button>
@@ -345,14 +345,14 @@ export default function GaleriaCeos() {
               <button 
                 className="boton-navegacion boton-anterior"
                 onClick={(e) => navegarImagen(e, 'anterior')}
-                aria-label="Imagen anterior"
+                aria-label={galleryTexts.modal_previous || "Imagen anterior"}
               >
                 ‹
               </button>
               <button 
                 className="boton-navegacion boton-siguiente"
                 onClick={(e) => navegarImagen(e, 'siguiente')}
-                aria-label="Imagen siguiente"
+                aria-label={galleryTexts.modal_next || "Imagen siguiente"}
               >
                 ›
               </button>
@@ -370,7 +370,7 @@ export default function GaleriaCeos() {
               
               <div className="info-imagen">
                 <h3>{imagenActual.titulo}</h3>
-                <p>{imagenSeleccionada.index + 1} de {imagenesActuales.length}</p>
+                <p>{imagenSeleccionada.index + 1} {galleryTexts.modal_counter || "de"} {imagenesActuales.length}</p>
               </div>
             </div>
           </div>

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import RadioBanner from './RadioBanner'
+import { useText } from '@/hooks/useContent'
 
 export default function RadioBannerDynamic() {
   const [radioData, setRadioData] = useState({
@@ -10,6 +11,11 @@ export default function RadioBannerDynamic() {
     titulo: ''
   })
   const [loading, setLoading] = useState(true)
+  
+  const liveLabel = useText('radio_live_label', 'Radio en vivo')
+  const loadingText = useText('radio_loading', 'Cargando...')
+  const defaultTitle = useText('radio_default_title', 'Jóvenes en Acción')
+  const defaultSchedule = useText('radio_default_schedule', 'Todos los jueves por radio cultura de 20 a 21 hs')
 
   useEffect(() => {
     async function fetchRadioData() {
@@ -30,17 +36,10 @@ export default function RadioBannerDynamic() {
           .eq('clave', 'radio_mes')
           .single()
 
-        // No buscar título de carrusel, usar título fijo para la radio
         setRadioData({
           dia: diaData?.valor || '',
           mes: mesData?.valor || '',
-          titulo: 'Jóvenes en Acción' // Título fijo para el programa de radio
-        })
-
-        console.log('📊 Radio data fetched:', {
-          dia: diaData?.valor,
-          mes: mesData?.valor,
-          titulo: 'Jóvenes en Acción'
+          titulo: defaultTitle
         })
 
       } catch (error) {
@@ -51,20 +50,20 @@ export default function RadioBannerDynamic() {
     }
 
     fetchRadioData()
-  }, [])
+  }, [defaultTitle])
 
   if (loading) {
     return (
       <div className="bg-gradient-to-r from-purple-600 to-blue-600 text-white p-6 rounded-lg shadow-lg">
         <div className="text-center">
           <div className="text-sm font-medium text-purple-100 mb-1">
-            Radio en vivo
+            {liveLabel}
           </div>
           <div className="text-lg font-bold mb-2">
-            Cargando...
+            {loadingText}
           </div>
           <div className="text-sm text-purple-100">
-            Todos los jueves por radio cultura de 20 a 21 hs
+            {defaultSchedule}
           </div>
         </div>
       </div>
