@@ -6,6 +6,7 @@ import carouselData from "@/data/carousel.json";
 import { StaticImageData } from "next/image";
 import { FaBroadcastTower, FaYoutube } from "react-icons/fa";
 import { createClient } from '@/utils/supabase/client';
+import { useText } from '@/hooks/useContent';
 
 // CONFIGURACIÓN DE VACACIONES
 const FECHA_REGRESO = "el jueves 5 de marzo de 20 a 21 hs"; // Texto que verá la gente
@@ -33,6 +34,22 @@ interface CarruselProps {
 export default function ControlledCarousel({ foto_principal, titulo_web, carrusel_titulo_1, carrusel_titulo_2, carrusel_titulo_3 }: CarruselProps) {
   const [index, setIndex] = useState<number>(0);
   const [radioData, setRadioData] = useState({ dia: '', mes: '' });
+  
+  // Textos traducibles de radio
+  const defaultSchedule = useText('radio_default_schedule', 'Todos los jueves por radio cultura de 20 a 21 hs')
+  const returnMessageTemplate = useText('radio_return_message', '✨ Retomamos la programación el jueves {dia} de {mes} de 20 a 21 hs')
+  
+  // Textos traducibles del carrusel
+  const slide1Category = useText('carousel_slide1_category', 'Radio en vivo')
+  const slide1Title = useText('carousel_slide1_title', 'PROGRAMA MULTIMEDIAL, EDUCATIVO Y SOCIAL')
+  const slide1Subtitle = useText('carousel_slide1_subtitle', 'Los jueves de 20 a 21 h')
+  
+  const slide2Category = useText('carousel_slide2_category', 'Salidas Culturales, Integradoras e Inclusivas')
+  const slide2Title = useText('carousel_slide2_title', 'Cines Debates con apoyo de Cinépolis y Mc Donald\'s')
+  const slide2Subtitle = useText('carousel_slide2_subtitle', 'Participaron más de 1.500 jóvenes')
+  
+  const slide3Category = useText('carousel_slide3_category', 'Salidas Culturales, Integradoras e Inclusivas')
+  const slide3Title = useText('carousel_slide3_title', 'Visita al Museo de Malvinas')
 
   // Obtener datos de radio dinámicamente
   useEffect(() => {
@@ -67,7 +84,7 @@ export default function ControlledCarousel({ foto_principal, titulo_web, carruse
   // Función para generar el mensaje dinámico
   const getRadioMessage = () => {
     if (!radioData.dia || !radioData.mes) {
-      return 'Todos los jueves por radio cultura de 20 a 21 hs'
+      return defaultSchedule
     }
 
     const currentDate = new Date()
@@ -76,11 +93,11 @@ export default function ControlledCarousel({ foto_principal, titulo_web, carruse
     
     // Si la fecha actual es anterior a la ingresada
     if (currentDate < targetDate) {
-      return `✨ Retomamos la programación el jueves ${radioData.dia} de ${radioData.mes} de 20 a 21 hs`
+      return returnMessageTemplate.replace('{dia}', radioData.dia).replace('{mes}', radioData.mes)
     }
     
     // Si la fecha ya pasó o es el mismo día
-    return 'Todos los jueves por radio cultura de 20 a 21 hs'
+    return defaultSchedule
   }
 
   const handleSelect = (selectedIndex: number) => {
@@ -92,6 +109,34 @@ export default function ControlledCarousel({ foto_principal, titulo_web, carruse
   const esVacaciones = hoy < FECHA_LIMITE;
 
   const slides = carouselData.hero.slides;
+  
+  // Helper function to get translated text for each slide
+  const getSlideCategory = (slideId: number) => {
+    switch(slideId) {
+      case 1: return slide1Category
+      case 2: return slide2Category
+      case 3: return slide3Category
+      default: return ''
+    }
+  }
+  
+  const getSlideTitle = (slideId: number) => {
+    switch(slideId) {
+      case 1: return carrusel_titulo_1 || slide1Title
+      case 2: return carrusel_titulo_2 || slide2Title
+      case 3: return carrusel_titulo_3 || slide3Title
+      default: return titulo_web || ''
+    }
+  }
+  
+  const getSlideSubtitle = (slideId: number) => {
+    switch(slideId) {
+      case 1: return null // Radio slide uses dynamic message
+      case 2: return slide2Subtitle
+      case 3: return null // Slide 3 has no subtitle
+      default: return null
+    }
+  }
 
   return (
     <div className="carousel-wrapper w-full">
@@ -108,17 +153,14 @@ export default function ControlledCarousel({ foto_principal, titulo_web, carruse
             <div className="static md:absolute md:bottom-0 md:left-0 md:right-0 bg-slate-900 md:bg-black/50 text-white p-6 pb-20 md:p-12 md:pb-12 text-center backdrop-blur-sm transition-all min-h-[260px] md:min-h-[320px] md:max-h-[380px] flex flex-col justify-center">
               
               <p className="text-blue-400 text-xs md:text-sm uppercase tracking-[0.2em] font-bold mb-2">
-                {slide.category}
+                {getSlideCategory(slide.id)}
               </p>
 
               <h2 className="text-xl md:text-4xl font-extrabold leading-tight mb-3">
-                {slide.id === 1 && carrusel_titulo_1 ? carrusel_titulo_1 :
-                 slide.id === 2 && carrusel_titulo_2 ? carrusel_titulo_2 :
-                 slide.id === 3 && carrusel_titulo_3 ? carrusel_titulo_3 :
-                 titulo_web || slide.title}
+                {getSlideTitle(slide.id)}
               </h2>
 
-              {slide.subtitle && (
+              {(slide.id === 1 || getSlideSubtitle(slide.id)) && (
                 <div className="mb-4">
                   {/* Si es el slide de la Radio (ID 1), usa el mensaje dinámico */}
                   {slide.id === 1 ? (
@@ -127,7 +169,7 @@ export default function ControlledCarousel({ foto_principal, titulo_web, carruse
                     </p>
                   ) : (
                     <p className="text-slate-300 text-sm md:text-lg font-light">
-                      {slide.subtitle}
+                      {getSlideSubtitle(slide.id)}
                     </p>
                   )}
                 </div>
