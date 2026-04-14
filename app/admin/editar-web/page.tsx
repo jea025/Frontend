@@ -56,10 +56,9 @@ export default function EditarWebPage() {
     if (error) {
       setMessage({ type: 'error', text: `Error cargando configuración: ${error.message}` })
     } else {
-      // Mapear los datos para que funcionen con la interfaz existente
       const mappedData = (data || []).map(item => ({
         ...item,
-        valor: item.texto_es, // Usar texto_es como valor para edición
+        valor: item.texto_es,
         tipo: 'texto' as const,
         seccion: 'General'
       }))
@@ -128,9 +127,11 @@ export default function EditarWebPage() {
         updated[radioDiaIndex] = { ...updated[radioDiaIndex], valor: dia }
       } else {
         updated.push({ 
-          id: Date.now() + Math.random(), // ID temporal
+          id: String(Date.now() + Math.random()), // ID temporal
           clave: 'radio_dia', 
           valor: dia, 
+          texto_es: dia,
+          texto_en: dia,
           tipo: 'texto' as const, 
           seccion: 'Carrusel' 
         })
@@ -141,9 +142,11 @@ export default function EditarWebPage() {
         updated[radioMesIndex] = { ...updated[radioMesIndex], valor: mes }
       } else {
         updated.push({ 
-          id: Date.now() + Math.random(), // ID temporal
+          id: String(Date.now() + Math.random()), // ID temporal
           clave: 'radio_mes', 
           valor: mes, 
+          texto_es: mes,
+          texto_en: mes,
           tipo: 'texto' as const, 
           seccion: 'Carrusel' 
         })
@@ -404,8 +407,7 @@ export default function EditarWebPage() {
         {configItems.length === 0 && (
           <div className="bg-white shadow-sm ring-1 ring-gray-900/5 sm:rounded-xl p-6">
             <p className="text-gray-500 text-center">
-              No hay elementos de configuración disponibles. 
-              Asegúrate de que la tabla 'contenido_multilenguaje' tenga registros con contexto='backoffice'.
+              No se encontraron elementos de configuración.
             </p>
           </div>
         )}

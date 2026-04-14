@@ -23,8 +23,8 @@ interface LogroEstatico {
 export default function LogrosCombinados() {
   const [logrosDinamicos, setLogrosDinamicos] = useState<LogroDinamico[]>([])
   const [loading, setLoading] = useState(true)
-  const logrosTitle = useText('logros_title')
-  const logrosLoading = useText('logros_loading')
+  const achievementsTitle = useText('logros_title')
+  const achievementsLoading = useText('logros_loading')
   const { content: logrosTexts } = useContent({ prefix: 'logro_', removePrefix: true });
 
   // Logros estáticos existentes
@@ -165,8 +165,8 @@ export default function LogrosCombinados() {
   if (loading) {
     return (
       <div className="logrosSection">
-        <h1 className="texto tituloH1">{logrosTitle || "LOGROS E IMPACTO"}</h1>
-        <div className="text-center py-8">{logrosLoading || "Cargando logros..."}</div>
+        <h1 className="texto tituloH1">{achievementsTitle || "LOGROS E IMPACTO"}</h1>
+        <div className="text-center py-8">{achievementsLoading || "Cargando logros..."}</div>
       </div>
     )
   }
@@ -183,7 +183,7 @@ export default function LogrosCombinados() {
 
   return (
     <div className="logrosSection">
-      <h1 className="texto tituloH1">{logrosTitle || "LOGROS E IMPACTO"}</h1>
+      <h1 className="texto tituloH1">{achievementsTitle || "LOGROS E IMPACTO"}</h1>
       
       <div className="logrosGrid">
         {logrosOrdenados.map((logro, index) => (

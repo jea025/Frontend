@@ -23,25 +23,20 @@ export default function HomePage() {
     async function getConfig() {
       const supabase = createClient()
       
-      console.log("🔍 HOME PAGE - Cargando configuración...")
-      console.log("📋 Buscando en tabla: contenido_localizado")
-      
       // Buscar en contenido_localizado con las columnas correctas
       const { data, error } = await supabase
         .from('contenido_localizado')
         .select('clave, texto_es, texto_en')
 
-      console.log("📊 Respuesta de Supabase - data:", data?.length, "registros, error:", error)
-
       if (error) {
-        console.error('❌ HOME PAGE - Error:', error)
+        console.error('Error loading configuration:', error)
         setConfig({})
         setLoading(false)
         return
       }
 
       if (!data || data.length === 0) {
-        console.error('❌ HOME PAGE - No se encontraron datos en contenido_localizado')
+        console.error('No data found in contenido_localizado')
         setConfig({})
         setLoading(false)
         return
@@ -55,10 +50,8 @@ export default function HomePage() {
         if (item.texto_en) {
           newConfig[`${item.clave}_en`] = item.texto_en
         }
-        console.log(`  ✓ ${item.clave}: ${item.texto_es?.substring(0, 30)}...`)
       })
 
-      console.log("✅ HOME PAGE - Config cargado con", Object.keys(newConfig).length, "claves")
       setConfig(newConfig)
       setLoading(false)
     }
@@ -69,23 +62,19 @@ export default function HomePage() {
   // Cambiar idioma cuando cambia el locale
   useEffect(() => {
     const configKeys = Object.keys(config)
-    console.log("🔄 useEffect idioma - locale:", locale, "config keys:", configKeys.length)
     
     // Si no hay config cargado, esperar
     if (configKeys.length === 0) {
-      console.log("⏭️ Saltando cambio de idioma (config vacío)")
       return
     }
     
     // Si el idioma es español, usar config original (texto_es)
     if (locale === 'es') {
-      console.log("⏭️ Usando textos en español")
       setTranslatedConfig(config)
       return
     }
 
     // Si el idioma es inglés, usar las versiones _en
-    console.log("🌐 Cambiando a inglés")
     const translated: ConfigData = {}
     
     // Para cada clave, buscar su versión _en
@@ -99,15 +88,12 @@ export default function HomePage() {
       if (config[enKey]) {
         // Si existe traducción en inglés, usarla
         translated[key] = config[enKey]
-        console.log(`  ✓ ${key}: usando ${enKey}`)
       } else {
         // Si no existe, usar el español (fallback)
         translated[key] = config[key]
-        console.log(`  ⚠️ ${key}: no hay traducción, usando español`)
       }
     })
 
-    console.log("✅ CAMBIO DE IDIOMA COMPLETADO")
     setTranslatedConfig(translated)
   }, [locale, config])
 

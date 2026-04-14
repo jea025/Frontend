@@ -110,33 +110,28 @@ export default function ControlledCarousel({ foto_principal, titulo_web, carruse
 
   const slides = carouselData.hero.slides;
   
-  // Helper function to get translated text for each slide
-  const getSlideCategory = (slideId: number) => {
-    switch(slideId) {
-      case 1: return slide1Category
-      case 2: return slide2Category
-      case 3: return slide3Category
-      default: return ''
-    }
+  // Helper maps for translated text for each slide
+  const slideCategoryMap: Record<number, string> = {
+    1: slide1Category,
+    2: slide2Category,
+    3: slide3Category
   }
   
-  const getSlideTitle = (slideId: number) => {
-    switch(slideId) {
-      case 1: return carrusel_titulo_1 || slide1Title
-      case 2: return carrusel_titulo_2 || slide2Title
-      case 3: return carrusel_titulo_3 || slide3Title
-      default: return titulo_web || ''
-    }
+  const slideTitleMap: Record<number, string> = {
+    1: carrusel_titulo_1 || slide1Title,
+    2: carrusel_titulo_2 || slide2Title,
+    3: carrusel_titulo_3 || slide3Title
   }
   
-  const getSlideSubtitle = (slideId: number) => {
-    switch(slideId) {
-      case 1: return null // Radio slide uses dynamic message
-      case 2: return slide2Subtitle
-      case 3: return null // Slide 3 has no subtitle
-      default: return null
-    }
+  const slideSubtitleMap: Record<number, string | null> = {
+    1: null, // Radio slide uses dynamic message
+    2: slide2Subtitle,
+    3: null  // Slide 3 has no subtitle
   }
+  
+  const getSlideCategory = (slideId: number) => slideCategoryMap[slideId] || ''
+  const getSlideTitle = (slideId: number) => slideTitleMap[slideId] || titulo_web || ''
+  const getSlideSubtitle = (slideId: number) => slideSubtitleMap[slideId] || null
 
   return (
     <div className="carousel-wrapper w-full">
