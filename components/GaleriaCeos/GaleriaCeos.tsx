@@ -29,78 +29,79 @@ interface ImagenGaleria {
   titulo?: string;
 }
 
-const imagenesGaleriaCeos: ImagenGaleria[] = [
-  {
-    src: ceos1,
-    alt: "Entrevista con CEOs y Emprendedores - Sesión 1",
-    titulo: "Entrevista con Victor Valle CEO de GOOGLE Argentina"
-  },
-  {
-    src: ceos2,
-    alt: "Entrevista con CEOs y Emprendedores - Sesión 2",
-    titulo: "Entrevista a Alejandro y Micaela Kelman"
-  },
-  {
-    src: ceos3,
-    alt: "Programa Jóvenes en Acción - Entrevistas",
-    titulo: "Entrevista al equipo ganador del 3er puesto del Premio Banco Patagonia Innova del 2013"
-  }
-];
-
-const imagenesColegios: ImagenGaleria[] = [
-  {
-    src: colegios1,
-    alt: "Alumnos secundarios en programa radial",
-    titulo: "Jóvenes Conductores"
-  },
-  {
-    src: colegios2,
-    alt: "Estudiantes en producción de radio",
-    titulo: "Experiencia Radiofónica"
-  }
-];
-
-const imagenesPlantacion: ImagenGaleria[] = [
-  {
-    src: plantacion1,
-    alt: "Proyecto de Forestación - Plantación de árboles",
-    titulo: "Plantación de Árboles Frutales"
-  },
-  {
-    src: plantacion2,
-    alt: "Jóvenes plantando árboles",
-    titulo: "Educación Ambiental"
-  },
-  {
-    src: plantacion3,
-    alt: "Proyecto Forestación, Educación y Valores",
-    titulo: "Compromiso con el Medio Ambiente"
-  }
-];
-
-const imagenesVoluntariado: ImagenGaleria[] = [
-  {
-    src: voluntariado1,
-    alt: "Hogar",
-    titulo: "V H"
-  },
-  {
-    src: voluntariado2,
-    alt: "Hogar",
-    titulo: "Cumpleaños Hogar"
-  },
-  {
-    src: voluntariado3,
-    alt: "Hogar",
-    titulo: "Festejo Hogar"
-  }
-];
-
 export default function GaleriaCeos() {
   // Cargar textos traducidos de la galería
   const { content: galleryTexts } = useContent({ prefix: 'gallery_', removePrefix: true });
   
   const [imagenSeleccionada, setImagenSeleccionada] = useState<{galeria: string; index: number} | null>(null);
+
+  // Definir arrays de imágenes usando textos de la base de datos
+  const imagenesGaleriaCeos: ImagenGaleria[] = [
+    {
+      src: ceos1,
+      alt: "Entrevista con CEOs y Emprendedores - Sesión 1",
+      titulo: galleryTexts.ceos_img1_title || "Entrevista con Victor Valle CEO de GOOGLE Argentina"
+    },
+    {
+      src: ceos2,
+      alt: "Entrevista con CEOs y Emprendedores - Sesión 2",
+      titulo: galleryTexts.ceos_img2_title || "Entrevista a Alejandro y Micaela Kelman"
+    },
+    {
+      src: ceos3,
+      alt: "Programa Jóvenes en Acción - Entrevistas",
+      titulo: galleryTexts.ceos_img3_title || "Entrevista al equipo ganador del 3er puesto del Premio Banco Patagonia Innova del 2013"
+    }
+  ];
+
+  const imagenesColegios: ImagenGaleria[] = [
+    {
+      src: colegios1,
+      alt: "Alumnos secundarios en programa radial",
+      titulo: galleryTexts.schools_img1_title || "Jóvenes Conductores"
+    },
+    {
+      src: colegios2,
+      alt: "Estudiantes en producción de radio",
+      titulo: galleryTexts.schools_img2_title || "Experiencia Radiofónica"
+    }
+  ];
+
+  const imagenesPlantacion: ImagenGaleria[] = [
+    {
+      src: plantacion1,
+      alt: "Proyecto de Forestación - Plantación de árboles",
+      titulo: galleryTexts.forest_img1_title || "Plantación de Árboles Frutales"
+    },
+    {
+      src: plantacion2,
+      alt: "Jóvenes plantando árboles",
+      titulo: galleryTexts.forest_img2_title || "Educación Ambiental"
+    },
+    {
+      src: plantacion3,
+      alt: "Proyecto Forestación, Educación y Valores",
+      titulo: galleryTexts.forest_img3_title || "Compromiso con el Medio Ambiente"
+    }
+  ];
+
+  const imagenesVoluntariado: ImagenGaleria[] = [
+    {
+      src: voluntariado1,
+      alt: "Hogar",
+      titulo: galleryTexts.volunteer_img1_title || "V H"
+    },
+    {
+      src: voluntariado2,
+      alt: "Hogar",
+      titulo: galleryTexts.volunteer_img2_title || "Cumpleaños Hogar"
+    },
+    {
+      src: voluntariado3,
+      alt: "Hogar",
+      titulo: galleryTexts.volunteer_img3_title || "Festejo Hogar"
+    }
+  ];
 
   const abrirModal = useCallback((galeria: string, index: number) => {
     setImagenSeleccionada({galeria, index});
@@ -259,6 +260,7 @@ export default function GaleriaCeos() {
               preload="metadata"
               poster="/miniatura_video_barcelo.png"
               className="w-full h-auto block"
+              suppressHydrationWarning
             >
               <source src="/JEA_Fundacion_Barcelo.mp4#t=0.001" type="video/mp4" />
               {galleryTexts.events_video_error || "Tu navegador no soporta videos."}

@@ -1,10 +1,14 @@
+"use client";
 import { FaFacebook, FaInstagram, FaYoutube } from "react-icons/fa";
+import { useText } from "@/hooks/useContent";
 
 export default function Enlaces() {
+  const socialTitle = useText('footer_social_title', 'Síguenos en nuestras redes sociales');
+  
   return (
     <div className="flex flex-col items-center space-y-4 mb-6 w-screen h-50">
       <h3 className="text-xl font-semibold text-white">
-        Síguenos en nuestras redes sociales
+        {socialTitle}
       </h3>
       <div className="flex space-x-6">
         <a
