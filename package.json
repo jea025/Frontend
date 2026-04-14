@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "next lint",
     "translate": "node scripts/translate-content.mjs",
-    "check-hash": "node scripts/check-hash-status.mjs"
+    "check-hash": "node scripts/check-hash-status.mjs",
+    "validate-security": "node scripts/validate-security-headers.mjs",
+    "security-audit": "npm audit && node scripts/validate-security-headers.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.5.2",
