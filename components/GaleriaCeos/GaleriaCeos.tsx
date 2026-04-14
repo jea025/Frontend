@@ -292,6 +292,62 @@ export default function GaleriaCeos() {
 
       </div>
 
+      {/* Nueva sección - Testimonios de Personalidades */}
+      <div className="segunda-seccion bg-gradient-to-br from-slate-50 to-blue-50 py-16">
+        <div className="flex flex-col items-center justify-center w-full px-4">
+          
+          {/* Título */}
+          <div className="relative mb-8 flex flex-col items-center">
+            <h3 className="text-slate-800 text-3xl md:text-4xl font-extrabold tracking-tight text-center">
+              {galleryTexts.testimonials_title || "Personalidades que han pasado por nuestro espacio y sus testimonios"}
+            </h3>
+            <div className="h-1.5 w-16 bg-blue-600 mt-4 rounded-full"></div>
+          </div>
+
+          {/* Video de Victor Valle */}
+          <div className="w-full max-w-[280px] min-h-[200px] overflow-hidden rounded-[2.5rem] shadow-xl border-[6px] border-slate-100 bg-black">
+            <div className="relative w-full" style={{ height: '200px' }}>
+              <iframe
+                src="https://www.youtube.com/embed/xN0crvT6BfQ?start=0.001"
+                className="absolute top-0 left-0 border-0"
+                style={{ 
+                  width: '280px', 
+                  height: '200px',
+                  transform: 'scale(1)',
+                  transformOrigin: 'top left'
+                }}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                title="Victor Valle - Entrevista Jóvenes en Acción"
+              />
+            </div>
+          </div>
+          
+          {/* Botón de Instagram para Victor Valle */}
+          <a 
+            href="https://www.instagram.com/reels/DB1iOFHvC9V/" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="mt-10 flex items-center gap-2 px-8 py-3 bg-slate-900 hover:bg-black rounded-xl text-white text-sm font-bold transition-all shadow-lg hover:shadow-xl active:scale-95"
+          >
+            <svg 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              stroke="currentColor" 
+              strokeWidth="2" 
+              className="w-5 h-5 text-pink-400"
+            >
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+            {galleryTexts.testimonials_instagram_button || "Ver Reel Victor Valle"}
+          </a>
+
+        </div>
+
+      </div>
+
       {/* Tercera sección - Forestación */}
       <div className="tercera-seccion">
         <div className="descripcion-terciaria">
