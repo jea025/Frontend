@@ -155,42 +155,6 @@ export default function HomePage() {
           />
         </div>
       </section>
-
-      {/* 3. Prensa - Con contenido traducido */}
-      {displayConfig.prensa_list && (
-        <section className="py-20 bg-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
-              {displayConfig.prensa_title || (locale === 'es' ? 'Prensa y Premios' : 'Press and Awards')}
-            </h2>
-            <div className="prensaContainer">
-              <div className="prensaSubsection">
-                <h2 className="texto tituloH2">
-                  {displayConfig.prensa_articles_title || (locale === 'es' ? 'Artículos de Prensa' : 'Press Articles')}
-                </h2>
-                
-                <div className="articulosLista">
-                  {(() => {
-                    try {
-                      const prensa = JSON.parse(displayConfig.prensa_list)
-                      return prensa.map((item: any, index: number) => (
-                        <div key={index} className="articuloItem">
-                          <a href={item.url} target="_blank" rel="noopener noreferrer" className="enlaceArticulo">
-                            <strong>{item.titulo}</strong>
-                            {item.fecha && <span className="text-gray-500 text-sm ml-2">({item.fecha})</span>}
-                          </a>
-                        </div>
-                      ))
-                    } catch {
-                      return null
-                    }
-                  })()}
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
     </div>
   );
 }
